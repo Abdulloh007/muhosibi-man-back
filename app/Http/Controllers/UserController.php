@@ -6,8 +6,8 @@ use App\Models\User;
 use App\Models\Devices;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Validator;
-use Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 
@@ -94,7 +94,13 @@ class UserController extends Controller
             'code_phrase' => 'required',
             'devices' => 'nullable',
             'device' => 'nullable',
-            'status'=>'nullable'
+            'status'=>'nullable',
+            'name'=>'nullable',
+            'surname'=>'nullable',
+            'patronimic'=>'nullable',
+            'gender'=>'nullable',
+            'age'=>'nullable',
+            'birth'=>'nullable',
         ]);
 
         if($validator->fails()){
@@ -119,6 +125,9 @@ class UserController extends Controller
             }else{
                 $user->devices()->sync($input['devices']);
             }
+
+            if(isset($input['birth']))
+                $input['birth'] = date('Y-m-d',strtotime($input['birth']));
 
             $success['username'] =  $user->username;
             $success['token'] =  $user->createToken('MuhosibiMan')->accessToken;
@@ -350,6 +359,9 @@ class UserController extends Controller
         if (isset($input['password'])) {
             $input['password'] = bcrypt($input['password']);
         }
+        
+        if(isset($input['birth']))
+            $input['birth'] = date('Y-m-d',strtotime($input['birth']));
     
         $user->update($input);
     

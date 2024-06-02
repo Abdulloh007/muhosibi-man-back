@@ -25,6 +25,12 @@ class User extends Authenticatable
         'password',
         'code_phrase',
         'status',
+        'name',
+        'surname',
+        'patronimic',
+        'gender',
+        'age', 
+        'birth',
     ];
 
     /**
@@ -67,6 +73,65 @@ class User extends Authenticatable
 
 
     // username
+    public function getNameAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = Crypt::encryptString($value);
+    }
+
+
+    public function getSurnameAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    public function setSurnameAttribute($value)
+    {
+        $this->attributes['surname'] = Crypt::encryptString($value);
+    }
+
+    public function getPatronimicAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    public function setPatronimicAttribute($value)
+    {
+        $this->attributes['patronimic'] = Crypt::encryptString($value);
+    }
+
+
+    public function getAgeAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    public function setAgeAttribute($value)
+    {
+        $this->attributes['age'] = Crypt::encryptString($value);
+    }
+
+    
     public function getUsernameAttribute($value)
     {
         try {

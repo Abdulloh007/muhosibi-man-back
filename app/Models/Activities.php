@@ -22,33 +22,34 @@ class Activities extends Model
 
 
     
-    private function decryptAttribute($value)
-    {
-        try {
-            return Crypt::decryptString($value);
-        } catch (DecryptException $e) {
-            return null;
-        }
-    }
+    // private function decryptAttribute($value)
+    // {
+    //     try {
+    //         return Crypt::decryptString($value);
+    //     } catch (DecryptException $e) {
+    //         return null;
+    //     }
+    // }
     
-    public function getTitleAttribute($value)
-    {
-        return $this->decryptAttribute($value);
-    }
+    // public function getTitleAttribute($value)
+    // {
+    //     return $this->decryptAttribute($value);
+    // }
 
-    public function setTitleAttribute($value)
-    {
-        $this->attributes['title'] = Crypt::encryptString($value);
-    }
-    public function getDescriptionAttribute($value)
-    {
-        return $this->decryptAttribute($value);
-    }
+    // public function setTitleAttribute($value)
+    // {
+    //     $this->attributes['title'] = Crypt::encryptString($value);
+    // }
 
-    public function setDescriptionAttribute($value)
-    {
-        $this->attributes['description'] = Crypt::encryptString($value);
-    }
+    // public function getDescriptionAttribute($value)
+    // {
+    //     return $this->decryptAttribute($value);
+    // }
+
+    // public function setDescriptionAttribute($value)
+    // {
+    //     $this->attributes['description'] = Crypt::encryptString($value);
+    // }
 
 
 }

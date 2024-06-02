@@ -35,10 +35,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register', [UserController::class, 'store']);
 Route::post('auth', [UserController::class, 'auth']);
-
+Route::get('activities', [ActivitiesController::class, 'index']);
 
 Route::middleware('auth:api')->group( function () {
-    
+
     Route::resource('devices', DevicesController::class);
     Route::resource('user', UserController::class);
     Route::get('me', [UserController::class, 'showMe']);
@@ -56,5 +56,4 @@ Route::middleware('auth:api')->group( function () {
     Route::resource('payments', PaymentController::class);
     Route::get('paymentsByOwner/{owner_id}', [PaymentController::class, 'getPaymentsByOwnerId']);
 
-    
 });
