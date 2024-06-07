@@ -6,6 +6,7 @@ use App\Http\Controllers\CounterpartyController;
 use App\Http\Controllers\DevicesController;
 use App\Http\Controllers\DocumentsController;
 use App\Http\Controllers\DocumentsTypeController;
+use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PaymentAccountController;
@@ -38,7 +39,7 @@ Route::post('auth', [UserController::class, 'auth']);
 Route::get('activities', [ActivitiesController::class, 'index']);
 
 Route::middleware('auth:api')->group( function () {
-
+    
     Route::resource('devices', DevicesController::class);
     Route::resource('user', UserController::class);
     Route::get('me', [UserController::class, 'showMe']);
@@ -55,5 +56,6 @@ Route::middleware('auth:api')->group( function () {
     Route::resource('activity', ActivitiesController::class);
     Route::resource('payments', PaymentController::class);
     Route::get('paymentsByOwner/{owner_id}', [PaymentController::class, 'getPaymentsByOwnerId']);
-
+    Route::resource('invoices', InvoicesController::class);
+    
 });

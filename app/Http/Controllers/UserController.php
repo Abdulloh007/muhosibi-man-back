@@ -95,23 +95,24 @@ class UserController extends Controller
             'devices' => 'nullable',
             'device' => 'nullable',
             'status'=>'nullable',
-            'name'=>'nullable',
-            'surname'=>'nullable',
-            'patronimic'=>'nullable',
-            'gender'=>'nullable',
-            'age'=>'nullable',
-            'birth'=>'nullable',
+            'name'=>'required',
+            'surname'=>'required',
+            'patronimic'=>'required',
+            'gender'=>'required',
+            'age'=>'required',
+            'birth'=>'required',
         ]);
 
         if($validator->fails()){
             return response()->json(['validation' => $validator->errors()]);       
         }
-
+        
         $input = $request->all();
         
         $chekout = User::where('email',$input['email'])->orWhere('phone', $input['phone'])->first();
         if(is_null($chekout)){
             $input['password'] = bcrypt($input['password']);
+            $input['birth'] = date('Y-m-d',strtotime($input['birth']));
             $user = User::create($input);
 
             if(isset($input['device'])){
@@ -126,8 +127,6 @@ class UserController extends Controller
                 $user->devices()->sync($input['devices']);
             }
 
-            if(isset($input['birth']))
-                $input['birth'] = date('Y-m-d',strtotime($input['birth']));
 
             $success['username'] =  $user->username;
             $success['token'] =  $user->createToken('MuhosibiMan')->accessToken;
