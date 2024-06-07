@@ -3,19 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoices;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class InvoicesController extends Controller
 {
+    /**
+     * Display a listing of the invoices.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
-        $invoices = Invoices::paginate(25);
+        $invoices = Invoices::with('document', 'products')->paginate(25);
         return response()->json($invoices);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created invoice in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -24,12 +30,11 @@ class InvoicesController extends Controller
     {
         $input = $request->all();
 
-        $validator  = Validator::make($request->all(), [
-            'product' => 'required|string|max:255',
-            'count' => 'required|numeric',
-            'unit' => 'required|string|max:5',
-            'price' => 'required|numeric',
-            'summary' => 'required|numeric',
+        $validator = Validator::make($input, [
+            'document_id' => 'required|exists:documents,id',
+            'products' => 'required|array',
+            'products.*.product_id' => 'required|exists:products,id',
+            'products.*.count' => 'required|integer|min:1',
         ]);
 
         if ($validator->fails()) {
@@ -37,35 +42,42 @@ class InvoicesController extends Controller
         }
 
         $invoice = Invoices::create($input);
-        return response()->json($invoice, 201);
+
+        foreach ($input['products'] as $product) {
+            $invoice->products()->attach($product['product_id'], ['count' => $product['count']]);
+        }
+
+        return response()->json($invoice->load('products'), 201);
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified invoice.
      *
+     * @param  \App\Models\Invoices  $invoice
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Invoices $invoice)
     {
+        $invoice->load('document', 'products');
         return response()->json($invoice);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified invoice in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Invoices  $invoice
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Invoices $invoice)
     {
         $input = $request->all();
 
-        $validator  = Validator::make($request->all(), [
-            'product' => 'sometimes|string|max:255',
-            'count' => 'sometimes|numeric',
-            'unit' => 'sometimes|string|max:5',
-            'price' => 'sometimes|numeric',
-            'summary' => 'sometimes|numeric',
+        $validator = Validator::make($input, [
+            'document_id' => 'sometimes|exists:documents,id',
+            'products' => 'sometimes|array',
+            'products.*.product_id' => 'required_with:products|exists:products,id',
+            'products.*.count' => 'required_with:products|integer|min:1',
         ]);
 
         if ($validator->fails()) {
@@ -73,16 +85,26 @@ class InvoicesController extends Controller
         }
 
         $invoice->update($input);
-        return response()->json($invoice);
+
+        if (isset($input['products'])) {
+            $invoice->products()->detach();
+            foreach ($input['products'] as $product) {
+                $invoice->products()->attach($product['product_id'], ['quantity' => $product['quantity']]);
+            }
+        }
+
+        return response()->json($invoice->load('products'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified invoice from storage.
      *
+     * @param  \App\Models\Invoices  $invoice
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Invoices $invoice)
     {
+        $invoice->products()->detach();
         $invoice->delete();
         return response()->json(null, 204);
     }

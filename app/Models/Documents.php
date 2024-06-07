@@ -125,4 +125,9 @@ class Documents extends Model
             return null;
         }
     }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'document_id');
+    }
 }
