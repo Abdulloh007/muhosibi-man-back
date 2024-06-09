@@ -91,28 +91,32 @@ class UserController extends Controller
             'email' => 'required|email',
             'phone'=>'required',
             'password' => 'required',
-            'code_phrase' => 'required',
+            'code_phrase' => 'nullable',
             'devices' => 'nullable',
             'device' => 'nullable',
             'status'=>'nullable',
             'name'=>'required',
             'surname'=>'required',
-            'patronimic'=>'required',
-            'gender'=>'required',
-            'age'=>'required',
-            'birth'=>'required',
+            'patronimic'=>'nullable',
+            'gender'=>'nullable',
+            'age'=>'nullable',
+            'birth'=>'nullable',
         ]);
 
         if($validator->fails()){
-            return response()->json(['validation' => $validator->errors()]);       
+            return response()->json(['validation' => $validator->errors()], 400);       
         }
         
         $input = $request->all();
         
         $chekout = User::where('email',$input['email'])->orWhere('phone', $input['phone'])->first();
+        
         if(is_null($chekout)){
             $input['password'] = bcrypt($input['password']);
-            $input['birth'] = date('Y-m-d',strtotime($input['birth']));
+            if (isset($input['birth'])) {
+                $input['birth'] = date('Y-m-d',strtotime($input['birth']));
+            }
+            
             $user = User::create($input);
 
             if(isset($input['device'])){

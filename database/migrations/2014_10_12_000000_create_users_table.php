@@ -16,15 +16,15 @@ return new class extends Migration
             $table->string('username');
             $table->string('name');
             $table->string('surname');
-            $table->string('patronimic');
-            $table->enum('gender', ['male','female',null]);
-            $table->string('age');
-            $table->date('birth');
+            $table->string('patronimic')->nullable();
+            $table->enum('gender', ['male','female', 'other'])->nullable();
+            $table->string('age')->nullable();
+            $table->date('birth')->nullable();
             $table->string('email');
             $table->string('phone');
             $table->string('password');
-            $table->string('code_phrase');
-            $table->enum('status', ['disable','active','banned']);
+            $table->string('code_phrase')->nullable();
+            $table->enum('status', ['disable','active','banned'])->default('active');
             $table->timestamps();
         });
     }

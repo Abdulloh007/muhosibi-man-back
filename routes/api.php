@@ -60,5 +60,5 @@ Route::middleware('auth:api')->group( function () {
     Route::get('paymentsByOwner/{owner_id}', [PaymentController::class, 'getPaymentsByOwnerId']);
     Route::resource('invoices', InvoicesController::class);
     Route::resource('products', ProductsController::class);
- 
+
 });
