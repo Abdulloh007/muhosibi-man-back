@@ -116,7 +116,7 @@ class UserController extends Controller
             if (isset($input['birth'])) {
                 $input['birth'] = date('Y-m-d',strtotime($input['birth']));
             }
-            
+
             $user = User::create($input);
 
             if(isset($input['device'])){
@@ -199,7 +199,7 @@ class UserController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json(['validation' => $validator->errors()]);       
+            return response()->json(['validation' => $validator->errors()], 400);       
         }
 
         
