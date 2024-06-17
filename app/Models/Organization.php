@@ -9,7 +9,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 
 class Organization extends Model
 {
-    use HasFactory;  
+    use HasFactory;
 
     protected $fillable = [
         'title',
@@ -30,8 +30,9 @@ class Organization extends Model
         'contacts' => 'json',
     ];
 
-    public function activities(){
-        return $this->belongsToMany(Activities::class, 'organization_activity', 'organization','activity');
+    public function activities()
+    {
+        return $this->belongsToMany(Activities::class, 'organization_activity', 'organization', 'activity');
     }
 
     public function owner()
@@ -46,147 +47,147 @@ class Organization extends Model
 
 
 
-     // Mutator for 'title'
-     public function setTitleAttribute($value)
-     {
-         $this->attributes['title'] = Crypt::encryptString($value);
-     }
- 
-     // Accessor for 'title'
-     public function getTitleAttribute($value)
-     {
-         try {
-             return Crypt::decryptString($value);
-         } catch (DecryptException $e) {
-             return null;
-         }
-     }
- 
-     // Mutator for 'email'
-     public function setEmailAttribute($value)
-     {
-         $this->attributes['email'] = Crypt::encryptString($value);
-     }
- 
-     // Accessor for 'email'
-     public function getEmailAttribute($value)
-     {
-         try {
-             return Crypt::decryptString($value);
-         } catch (DecryptException $e) {
-             return null;
-         }
-     }
- 
-     // Mutator for 'phone'
-     public function setPhoneAttribute($value)
-     {
-         $this->attributes['phone'] = Crypt::encryptString($value);
-     }
- 
-     // Accessor for 'phone'
-     public function getPhoneAttribute($value)
-     {
-         try {
-             return Crypt::decryptString($value);
-         } catch (DecryptException $e) {
-             return null;
-         }
-     }
- 
-     // Mutator for 'inn'
-     public function setInnAttribute($value)
-     {
-         $this->attributes['inn'] = Crypt::encryptString($value);
-     }
- 
-     // Accessor for 'inn'
-     public function getInnAttribute($value)
-     {
-         try {
-             return Crypt::decryptString($value);
-         } catch (DecryptException $e) {
-             return null;
-         }
-     }
- 
-     // Mutator for 'kpp'
-     public function setKppAttribute($value)
-     {
-         $this->attributes['kpp'] = Crypt::encryptString($value);
-     }
- 
-     // Accessor for 'kpp'
-     public function getKppAttribute($value)
-     {
-         try {
-             return Crypt::decryptString($value);
-         } catch (DecryptException $e) {
-             return null;
-         }
-     }
- 
-     // Mutator for 'legal_address'
-     public function setLegalAddressAttribute($value)
-     {
-         $this->attributes['legal_address'] = Crypt::encryptString($value);
-     }
- 
-     // Accessor for 'legal_address'
-     public function getLegalAddressAttribute($value)
-     {
-         try {
-             return Crypt::decryptString($value);
-         } catch (DecryptException $e) {
-             return null;
-         }
-     }
- 
-     // Mutator for 'physic_address'
-     public function setPhysicAddressAttribute($value)
-     {
-         $this->attributes['physic_address'] = Crypt::encryptString($value);
-     }
- 
-     // Accessor for 'physic_address'
-     public function getPhysicAddressAttribute($value)
-     {
-         try {
-             return Crypt::decryptString($value);
-         } catch (DecryptException $e) {
-             return null;
-         }
-     }
- 
-     // Mutator for 'type'
-     public function setTypeAttribute($value)
-     {
-         $this->attributes['type'] = Crypt::encryptString($value);
-     }
- 
-     // Accessor for 'type'
-     public function getTypeAttribute($value)
-     {
-         try {
-             return Crypt::decryptString($value);
-         } catch (DecryptException $e) {
-             return null;
-         }
-     }
- 
-     // Mutator for 'contacts'
-     public function setContactsAttribute($value)
-     {
-         $this->attributes['contacts'] = Crypt::encryptString($value);
-     }
- 
-     // Accessor for 'contacts'
-     public function getContactsAttribute($value)
-     {
-         try {
-             return Crypt::decryptString($value);
-         } catch (DecryptException $e) {
-             return null;
-         }
-     }
+    // Mutator for 'title'
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = Crypt::encryptString($value);
+    }
+
+    // Accessor for 'title'
+    public function getTitleAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    // Mutator for 'email'
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = Crypt::encryptString($value);
+    }
+
+    // Accessor for 'email'
+    public function getEmailAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    // Mutator for 'phone'
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = Crypt::encryptString($value);
+    }
+
+    // Accessor for 'phone'
+    public function getPhoneAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    // Mutator for 'inn'
+    public function setInnAttribute($value)
+    {
+        $this->attributes['inn'] = Crypt::encryptString($value);
+    }
+
+    // Accessor for 'inn'
+    public function getInnAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    // Mutator for 'kpp'
+    public function setKppAttribute($value)
+    {
+        $this->attributes['kpp'] = Crypt::encryptString($value);
+    }
+
+    // Accessor for 'kpp'
+    public function getKppAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    // Mutator for 'legal_address'
+    public function setLegalAddressAttribute($value)
+    {
+        $this->attributes['legal_address'] = Crypt::encryptString($value);
+    }
+
+    // Accessor for 'legal_address'
+    public function getLegalAddressAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    // Mutator for 'physic_address'
+    public function setPhysicAddressAttribute($value)
+    {
+        $this->attributes['physic_address'] = Crypt::encryptString($value);
+    }
+
+    // Accessor for 'physic_address'
+    public function getPhysicAddressAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    // Mutator for 'type'
+    public function setTypeAttribute($value)
+    {
+        $this->attributes['type'] = Crypt::encryptString($value);
+    }
+
+    // Accessor for 'type'
+    public function getTypeAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    // Mutator for 'contacts'
+    public function setContactsAttribute($value)
+    {
+        $this->attributes['contacts'] = Crypt::encryptString($value);
+    }
+
+    // Accessor for 'contacts'
+    public function getContactsAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
 }
