@@ -27,6 +27,7 @@ class Stuff extends Model
         'physic_address',
         'inn',
         'payment_method',
+        'organization_id'
     ];
 
     protected $casts = [
@@ -51,33 +52,15 @@ class Stuff extends Model
         $this->attributes['father_name'] = Crypt::encryptString($value);
     }
 
-    public function setBirthdayAttribute($value)
-    {
-        $this->attributes['birthday'] = Crypt::encryptString($value);
-    }
- 
     public function setCitizenshipAttribute($value)
     {
         $this->attributes['citizenship'] = Crypt::encryptString($value);
     }
 
-    public function setContractTypeAttribute($value)
-    {
-        $this->attributes['contract_type'] = Crypt::encryptString($value);
-    }
-
-
     public function setPositionAttribute($value)
     {
         $this->attributes['position'] = Crypt::encryptString($value);
     }
-
-
-    public function setBeginDateAttribute($value)
-    {
-        $this->attributes['begin_date'] = Crypt::encryptString($value);
-    }
-
 
     public function setExperienceDaysAttribute($value)
     {
@@ -139,16 +122,6 @@ class Stuff extends Model
         }
     }
 
-    // Mutator for 'birthday'
-    public function getBirthdayAttribute($value)
-    {
-        try {
-            return Crypt::decryptString($value);
-        } catch (DecryptException $e) {
-            return null;
-        }
-    }
-
     // Mutator for 'citizenship'
     public function getCitizenshipAttribute($value)
     {
@@ -159,28 +132,8 @@ class Stuff extends Model
         }
     }
 
-    // Mutator for 'contract_type'
-    public function getContractTypeAttribute($value)
-    {
-        try {
-            return Crypt::decryptString($value);
-        } catch (DecryptException $e) {
-            return null;
-        }
-    }
-
     // Mutator for 'position'
     public function getPositionAttribute($value)
-    {
-        try {
-            return Crypt::decryptString($value);
-        } catch (DecryptException $e) {
-            return null;
-        }
-    }
-
-    // Mutator for 'begin_date'
-    public function getBeginDateAttribute($value)
     {
         try {
             return Crypt::decryptString($value);

@@ -44,6 +44,11 @@ class Organization extends Model
     {
         return $this->hasMany(Cashbox::class);
     }
+    
+    public function stuff()
+    {
+        return $this->hasMany(Stuff::class);
+    }
 
 
 
@@ -55,38 +60,6 @@ class Organization extends Model
 
     // Accessor for 'title'
     public function getTitleAttribute($value)
-    {
-        try {
-            return Crypt::decryptString($value);
-        } catch (DecryptException $e) {
-            return null;
-        }
-    }
-
-    // Mutator for 'email'
-    public function setEmailAttribute($value)
-    {
-        $this->attributes['email'] = Crypt::encryptString($value);
-    }
-
-    // Accessor for 'email'
-    public function getEmailAttribute($value)
-    {
-        try {
-            return Crypt::decryptString($value);
-        } catch (DecryptException $e) {
-            return null;
-        }
-    }
-
-    // Mutator for 'phone'
-    public function setPhoneAttribute($value)
-    {
-        $this->attributes['phone'] = Crypt::encryptString($value);
-    }
-
-    // Accessor for 'phone'
-    public function getPhoneAttribute($value)
     {
         try {
             return Crypt::decryptString($value);

@@ -14,17 +14,15 @@ return new class extends Migration
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('email');
-            $table->string('phone');
-            $table->string('inn'); 
-            $table->string('kpp');
+            $table->string('inn')->nullable(); 
+            $table->string('kpp')->nullable();
             $table->enum('tax_system', ['УСН доходы','УСН доходы минус расходы']);
-            $table->string('legal_address');
-            $table->string('physic_address');
+            $table->string('legal_address')->nullable();
+            $table->string('physic_address')->nullable();
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('type');
-            $table->string('contacts');
+            $table->json('contacts')->nullable();
             $table->enum('status', ['active','banned','disable']);
 
             $table->timestamps();

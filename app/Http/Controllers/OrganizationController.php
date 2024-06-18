@@ -14,11 +14,11 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-          // Retrieve all organizations from the 'organizations' table
-          $organizations = Organization::all();
+        // Retrieve all organizations from the 'organizations' table
+        $organizations = Organization::all();
 
-          // Optionally, you can return a JSON response with the retrieved organizations
-          return response()->json(['data' => $organizations], 200);
+        // Optionally, you can return a JSON response with the retrieved organizations
+        return response()->json(['data' => $organizations], 200);
     }
 
     /**
@@ -36,51 +36,35 @@ class OrganizationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'inn' => 'required',
-            'kpp' => 'required',
+            'inn' => 'nullable',
+            'kpp' => 'nullable',
             'tax_system' => 'required',
-            'legal_address' => 'required',
-            'physic_address' => 'required',
+            'legal_address' => 'nullable',
+            'physic_address' => 'nullable',
             'type' => 'required',
-            'contacts' => 'required',
+            'contacts' => 'nullable',
             'status' => 'required',
         ]);
 
-        if($validator->fails()){
-            return response()->json(['validation' => $validator->errors()]);       
+        if ($validator->fails()) {
+            return response()->json(['validation' => $validator->errors()]);
         }
 
         $input = $request->all();
-        
-        $chekout = Organization::where('email',$input['email'])->orWhere('phone', $input['phone'])->first();
-        if(is_null($chekout)){
 
-            $organization = Organization::create($input);
+        $organization = Organization::create($input);
 
-            if( is_string($input['activities']) && strpos($input['activities'], ',') !== false){
-                $arr = explode(',',$input['activities']);
-                foreach($arr as $item){
-                    // $organization->activities()->sync($item);
-                    $organization->activities()->attach($item);
-                }
-            }else{
-                $organization->activities()->sync($input['activities']);
+        if (is_string($input['activities']) && strpos($input['activities'], ',') !== false) {
+            $arr = explode(',', $input['activities']);
+            foreach ($arr as $item) {
+                // $organization->activities()->sync($item);
+                $organization->activities()->attach($item);
             }
-
-            return response()->json($organization,200);
-
-        }else{
-            return response()->json(
-                [ 
-                    'message' => 'Duplicate (phone or email) organization on register.'
-                ],
-                409
-            );
+        } else {
+            $organization->activities()->sync($input['activities']);
         }
 
-
+        return response()->json($organization, 200);
     }
 
     /**
@@ -89,21 +73,22 @@ class OrganizationController extends Controller
     public function show(int $organizationId)
     {
         $organization = Organization::find($organizationId);
-        
-        if(is_null($organization)){
+
+        if (is_null($organization)) {
             return response()->json(
                 [
                     'message' => 'Organization not found'
-                ], 404
+                ],
+                404
             );
-        }else{
+        } else {
             return response()->json(
                 [
-                    'data'=>$organization
-                ], 200
+                    'data' => $organization
+                ],
+                200
             );
         }
-
     }
 
     /**
@@ -121,8 +106,6 @@ class OrganizationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => 'string|max:255',
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:20',
             'inn' => 'nullable|string|max:12',
             'kpp' => 'nullable|string|max:9',
             'tax_system' => 'nullable|string|max:255',
@@ -167,5 +150,25 @@ class OrganizationController extends Controller
         $organization->delete();
 
         return response()->json(['message' => 'Organization deleted successfully'], 200);
+    }
+
+
+    public function getOrgStauff(int $organizationId)
+    {
+        $organization = Organization::find($organizationId);
+        $orgStuff = $organization->stuff;
+
+        // return response()->json(
+        //     [
+        //         'message' => 'Organization not found'
+        //     ], 404
+        // );
+
+        return response()->json(
+            [
+                'data' => $orgStuff
+            ],
+            200
+        );
     }
 }

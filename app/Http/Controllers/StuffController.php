@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Stuff;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class StuffController extends Controller
 {
@@ -14,7 +15,7 @@ class StuffController extends Controller
     {
         $stuff = Stuff::paginate(50);
 
-        return response()->json($stuff,200);
+        return response()->json($stuff, 200);
     }
 
     /**
@@ -42,16 +43,17 @@ class StuffController extends Controller
             'begin_date' => 'required|date',
             'experience_days' => 'required|integer',
             'unique_number' => 'required|string',
-            'passport_details' => 'required|string',
+            'passport_details' => 'nullable|string',
             'legal_address' => 'required|string',
             'physic_address' => 'required|string',
             'inn' => 'required|string',
             'payment_method' => 'required|string',
+            'organization_id' => 'required|integer',
         ]);
-    
+
         // Create a new employee instance with the validated data
         $employee = Stuff::create($validatedData);
-    
+
         // Return a response indicating success
         return response()->json(['message' => 'Employee created successfully', 'data' => $employee], 201);
     }
@@ -63,20 +65,19 @@ class StuffController extends Controller
     {
         $stuff = Stuff::find($stuffId);
 
-        if(!$stuff){
+        if (!$stuff) {
             return response()->json(
                 [
-                    'message'=>'Stuff not found'
+                    'message' => 'Stuff not found'
                 ]
             );
         }
 
         return response()->json(
             [
-                'data'=>$stuff
+                'data' => $stuff
             ]
         );
-
     }
 
     /**
@@ -94,7 +95,7 @@ class StuffController extends Controller
     {
 
         $stuff = Stuff::findOrFail($id);
-
+        
         $stuff->update($request->all());
 
         return response()->json(['message' => 'Stuff updated successfully'], 200);

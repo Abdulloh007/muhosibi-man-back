@@ -53,7 +53,11 @@ Route::middleware('auth:api')->group( function () {
     Route::resource('doctypes', DocumentsTypeController::class);
     Route::resource('documents', DocumentsController::class);
     Route::resource('transactions', TransactionsController::class);
-    Route::resource('stuff', StuffController::class);
+    // Route::resource('stuff', StuffController::class);
+    Route::get('stuff/{organizationId}', [OrganizationController::class, 'getOrgStauff']);
+    Route::post('stuff', [StuffController::class, 'store']);
+    Route::get('stuff-one/{stuffId}', [StuffController::class, 'show']);
+    Route::post('stuff-one/{id}', [StuffController::class, 'update']);
     Route::resource('activity', ActivitiesController::class);
     Route::resource('payments', PaymentController::class);
     // Route::resource('products', ::class);

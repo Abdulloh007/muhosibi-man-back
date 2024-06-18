@@ -16,19 +16,21 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('father_name');
-            $table->string('birthday');
+            $table->date('birthday');
             $table->enum('gender', ['Мужской','Женский']);
             $table->string('citizenship');
-            $table->string('contract_type');
+            $table->enum('contract_type', ['Трудовой', 'Гражданско-правовой', 'Аренды у физлица', 'С учредителем']);
             $table->string('position');
-            $table->string('begin_date');
+            $table->date('begin_date');
             $table->string('experience_days');
             $table->string("unique_number");
-            $table->string('passport_details');
-            $table->string('legal_address');
-            $table->string('physic_address');
+            $table->text('passport_details')->nullable();
+            $table->string('legal_address')->nullable();
+            $table->string('physic_address')->nullable();
             $table->string('inn');
+            $table->integer('organization_id');
             $table->enum('payment_method', ['Наличными','На карту зарплатного проекта','На личную карту']);
+            $table->enum('status', ['Работает','Уволен','В отпуске', 'На декрете']);
             $table->timestamps();
         });
     }
