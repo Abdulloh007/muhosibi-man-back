@@ -12,34 +12,25 @@ class Transactions extends Model
     use HasFactory;
 
     protected $fillable = [
-        'type',
+        'operation',
+        'type_id',
+        'document_id',
+        'resource',
+        'title',
         'details',
         'total',
         'total_tax',
-        'sender', //
-        'taker', //
-        'status',
-        'payment', //
+        'counterparty_id',
+        'payment_account', //
     ];
 
     protected $casts = [
         'details' => 'json',
     ];
 
-    public function taker()
-    {
-        return $this->belongsTo(Counterparty::class, 'taker');
-    }
-    
-    public function sender()
-    {
-        return $this->belongsTo(Counterparty::class, 'sender');
-    }
-
-    
     public function paymentAccount()
     {
-        return $this->belongsTo(PaymentAccount::class, 'payment');
+        return $this->belongsTo(PaymentAccount::class, 'payment_account');
     }
 
     public function getDetailsAttribute($value)
@@ -56,7 +47,7 @@ class Transactions extends Model
         $this->attributes['details'] = Crypt::encryptString($value);
     }
 
-    
+
     public function getTotalAttribute($value)
     {
         try {
@@ -80,7 +71,7 @@ class Transactions extends Model
         }
     }
 
-   
+
     public function setTotalTaxAttribute($value)
     {
         $this->attributes['total_tax'] = Crypt::encryptString($value);

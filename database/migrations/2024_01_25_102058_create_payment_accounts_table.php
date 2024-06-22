@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('BIC');
             $table->string('сorrespondent_account');
             $table->string('comments');
-            $table->string('status');
+            $table->string('status');      
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')->references('id')->on('counterparties')->onDelete('cascade');
+            $table->float('balance');      
             $table->timestamps(); 
         });
     }

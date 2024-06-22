@@ -17,7 +17,7 @@ class Counterparty extends Model
         'legal_address',
         'physic_address',
         'site',
-        'group',
+        'category_id',
         'inn',
         'kpp',
         'contacts',
@@ -37,6 +37,10 @@ class Counterparty extends Model
         'passport_details' => 'json',
         'comment' => 'json',
     ];
+
+    public function category() {
+        return $this->hasOne(CountrpartyCategory::class, 'category_id');
+    }
 
     // Decrypt attribute with try-catch block
     private function decryptAttribute($value)

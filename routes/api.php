@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivitiesController;
 use App\Http\Controllers\CashboxController;
 use App\Http\Controllers\CounterpartyController;
+use App\Http\Controllers\CountrpartyCategoryController;
 use App\Http\Controllers\DevicesController;
 use App\Http\Controllers\DocumentsController;
 use App\Http\Controllers\DocumentsTypeController;
@@ -50,6 +51,7 @@ Route::middleware('auth:api')->group( function () {
     Route::get('user-notifications/{user}', [NotificationsController::class, 'show_by_user']);
     Route::resource('payment-account', PaymentAccountController::class);
     Route::resource('counterparty', CounterpartyController::class);
+    Route::resource('counterparty-category', CountrpartyCategoryController::class);
     Route::resource('doctypes', DocumentsTypeController::class);
     Route::resource('documents', DocumentsController::class);
     Route::resource('transactions', TransactionsController::class);

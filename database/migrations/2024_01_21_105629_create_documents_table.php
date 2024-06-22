@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
- 
+
 return new class extends Migration
 {
     /**
@@ -17,10 +17,12 @@ return new class extends Migration
             $table->text('template');
             $table->unsignedBigInteger('doc_type');
             $table->foreign('doc_type')->references('id')->on('documents_types')->onDelete('cascade');
-            $table->text('metatag');
-            $table->text('with_sign_seal');
+            $table->boolean('with_sign_seal');
             $table->text('public');
             $table->text('sum');
+            $table->boolean('isGroup')->default(false);
+            $table->integer('parent_id')->nullable();
+            $table->enum('status', ['В работе', 'Ждет оплаты', 'Нет счёта', 'Нет акта/накладной/УПД', 'Подписание документов', 'Подписан', 'Не подписан', 'Завершён', 'Отменён']);
             $table->timestamps();
         });
     }

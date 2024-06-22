@@ -20,7 +20,7 @@ class Cashbox extends Model
 
     public function organization()
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Organization::class, 'organization');
     }
 
     

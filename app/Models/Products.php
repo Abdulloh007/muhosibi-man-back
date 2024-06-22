@@ -13,6 +13,7 @@ class Products extends Model
         'price',
         'unit',
         'description',
+        'balance',
     ];
 
     public function invoices()

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('legal_address');
             $table->string('physic_address');
             $table->string('site');
-            $table->enum('group',['a','b','c']);
+            $table->integer('category_id')->nullable();
             $table->string('inn');
             $table->string('kpp');
             $table->string('contacts');

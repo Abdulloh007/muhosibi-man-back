@@ -13,24 +13,18 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            // $table->enum('base', ['Переход','Поступление']);
-            $table->enum('type', ['Переход','Поступление']);
+            $table->enum('operation', ['income','payment']);
+            $table->integer('type_id');
+            $table->integer('document_id')->nullable();
+            $table->enum('resource', ['cash', 'bank', 'ect']);
+            $table->string('title');
             $table->string('details');
             $table->string('total');
             $table->string('total_tax');
-
-            $table->unsignedBigInteger('sender');
-            $table->foreign('sender')->references('id')->on('counterparties')->onDelete('cascade');
-            
-            
-            $table->unsignedBigInteger('taker');
-            $table->foreign('taker')->references('id')->on('counterparties')->onDelete('cascade');
-
-            
-            $table->unsignedBigInteger('payment');
-            $table->foreign('payment')->references('id')->on('payment_accounts')->onDelete('cascade');
-
-            $table->enum('status', ['В обработке','Принят','Ошибка','Удержан']);
+            $table->unsignedBigInteger('counterparty_id');
+            $table->foreign('counterparty_id')->references('id')->on('counterparties')->onDelete('cascade');
+            $table->unsignedBigInteger('payment_account')->nullable();
+            $table->foreign('payment_account')->references('id')->on('payment_accounts')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -13,9 +13,6 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            // $table->decimal('count',20,2);
-            // $table->string('unit',5);
-            // $table->decimal('price',20,2);
             $table->decimal('summary',20,2);
             $table->unsignedBigInteger('document_id');
             $table->foreign('document_id')->references('id')->on('documents')->onDelete('cascade');

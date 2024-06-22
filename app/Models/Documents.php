@@ -6,28 +6,34 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
+use League\CommonMark\Node\Block\Document;
 
 class Documents extends Model
 {
-    use HasFactory; 
+    use HasFactory;
 
     protected $fillable = [
         'title',
         'template',
-        'metatag',
         'doc_type',
         'with_sign_seal',
         'public',
         'sum',
+        'status',
+        'isGroup',
+        'parent_id'
     ];
 
-    protected $casts = [
-        'metatag' => 'json',
-    ];
+    protected $casts = [];
 
     public function documentType()
     {
         return $this->belongsTo(DocumentsType::class, 'doc_type');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Document::class, 'parent_id');
     }
 
     // Mutator for 'title'
@@ -54,38 +60,6 @@ class Documents extends Model
 
     // Accessor for 'template'
     public function getTemplateAttribute($value)
-    {
-        try {
-            return Crypt::decryptString($value);
-        } catch (DecryptException $e) {
-            return null;
-        }
-    }
-
-    // Mutator for 'metatag'
-    public function setMetatagAttribute($value)
-    {
-        $this->attributes['metatag'] = Crypt::encryptString($value);
-    }
-
-    // Accessor for 'metatag'
-    public function getMetatagAttribute($value)
-    {
-        try {
-            return Crypt::decryptString($value);
-        } catch (DecryptException $e) {
-            return null;
-        }
-    }
-
-    // Mutator for 'with_sign_seal'
-    public function setWithSignSealAttribute($value)
-    {
-        $this->attributes['with_sign_seal'] = Crypt::encryptString($value);
-    }
-
-    // Accessor for 'with_sign_seal'
-    public function getWithSignSealAttribute($value)
     {
         try {
             return Crypt::decryptString($value);
@@ -128,6 +102,6 @@ class Documents extends Model
 
     public function invoices()
     {
-        return $this->hasMany(Invoice::class, 'document_id');
+        return $this->hasMany(Invoices::class, 'document_id');
     }
 }

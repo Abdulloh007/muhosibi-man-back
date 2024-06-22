@@ -104,7 +104,7 @@ class OrganizationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make([
             'title' => 'string|max:255',
             'inn' => 'nullable|string|max:12',
             'kpp' => 'nullable|string|max:9',

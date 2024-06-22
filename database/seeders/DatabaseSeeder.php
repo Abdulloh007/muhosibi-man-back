@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
         
         $this->call(ActivitiesSeeder::class);
         $this->call(DocumentsTypeSeeder::class);
+        $this->call(CounterpartyCategorySeeder::class);
+        $this->call(TransactionTypeSeeder::class);
 
     }
 }

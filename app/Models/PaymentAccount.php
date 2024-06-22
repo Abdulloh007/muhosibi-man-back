@@ -18,6 +18,7 @@ class PaymentAccount extends Model
         'comments',
         'status',
         'owner_id',
+        'balance'
     ];
 
     protected $casts = [

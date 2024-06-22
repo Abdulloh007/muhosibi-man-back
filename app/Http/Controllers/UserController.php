@@ -82,6 +82,8 @@ class UserController extends Controller
                 $add_device['name'] = $device->name;
                 if($device->ip)
                     $add_device['ip'] = $device->ip;
+                else 
+                    $add_device['ip'] = '192.168.1.1';
                 $added_device = Devices::create($add_device);
                 $user->devices()->sync($added_device->id);
             }else{

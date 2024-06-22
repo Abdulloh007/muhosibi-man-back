@@ -27,13 +27,13 @@ class Stuff extends Model
         'physic_address',
         'inn',
         'payment_method',
-        'organization_id'
+        'organization_id',
+        'status'
     ];
 
     protected $casts = [
         'birthday' => 'date',
         'begin_date' => 'date',
-        'experience_days' => 'date',
         'passport_details' => 'json',
     ];
 
