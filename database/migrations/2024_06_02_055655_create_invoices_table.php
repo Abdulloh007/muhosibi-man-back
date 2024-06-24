@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->decimal('summary',20,2);
+            $table->decimal('summary', 20, 2);
             $table->unsignedBigInteger('document_id');
             $table->foreign('document_id')->references('id')->on('documents')->onDelete('cascade');
+            $table->integer('organization_id');
             $table->timestamps();
         });
     }
@@ -28,7 +29,7 @@ return new class extends Migration
         Schema::table('invoices', function (Blueprint $table) {
             $table->dropForeign(['document_id']);
         });
-        
+
         Schema::dropIfExists('invoices');
     }
 };

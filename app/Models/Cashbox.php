@@ -14,13 +14,13 @@ class Cashbox extends Model
     protected $fillable = [
         'title',
         'balance',
-        'organization',
+        'organization_id',
         'status',
     ];
 
     public function organization()
     {
-        return $this->belongsTo(Organization::class, 'organization');
+        return $this->belongsTo(Organization::class);
     }
 
     
@@ -43,14 +43,14 @@ class Cashbox extends Model
     {
         $this->attributes['title'] = Crypt::encryptString($value);
     }
-    public function getBalanceAttribute($value)
-    {
-        return $this->decryptAttribute($value);
-    }
+    // public function getBalanceAttribute($value)
+    // {
+    //     return $this->decryptAttribute($value);
+    // }
 
-    public function setBalanceAttribute($value)
-    {
-        $this->attributes['balance'] = Crypt::encryptString($value);
-    }
+    // public function setBalanceAttribute($value)
+    // {
+    //     $this->attributes['balance'] = Crypt::encryptString($value);
+    // }
 
 }

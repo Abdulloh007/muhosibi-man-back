@@ -14,7 +14,9 @@ use App\Http\Controllers\PaymentAccountController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\StuffController;
+use App\Http\Controllers\TransactionDocTypeController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\TransactionTypeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +57,8 @@ Route::middleware('auth:api')->group( function () {
     Route::resource('doctypes', DocumentsTypeController::class);
     Route::resource('documents', DocumentsController::class);
     Route::resource('transactions', TransactionsController::class);
+    Route::get('transaction-types', [TransactionTypeController::class, 'index']);
+    Route::get('transaction-doctypes', [TransactionDocTypeController::class, 'index']);
     // Route::resource('stuff', StuffController::class);
     Route::get('stuff/{organizationId}', [OrganizationController::class, 'getOrgStauff']);
     Route::post('stuff', [StuffController::class, 'store']);

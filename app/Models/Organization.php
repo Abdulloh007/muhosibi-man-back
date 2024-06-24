@@ -47,6 +47,11 @@ class Organization extends Model
     {
         return $this->hasMany(Stuff::class);
     }
+    
+    public function counterparties()
+    {
+        return $this->hasMany(Counterparty::class);
+    }
 
 
 

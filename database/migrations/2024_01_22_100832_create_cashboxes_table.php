@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('cashboxes', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('balance');
-            $table->unsignedBigInteger('organization');
-            $table->foreign('organization')->references('id')->on('organizations')->onDelete('cascade');
-            $table->enum('status', ['active','disable','archived']);
+            $table->text('title');
+            $table->float('balance')->default(0);
+            $table->integer('organization_id');
+            $table->enum('status', ['active','disable','archived'])->default('active');
             $table->timestamps();
         });
     }

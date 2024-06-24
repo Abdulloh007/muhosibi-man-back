@@ -13,29 +13,17 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->string('type_id');
             $table->string('date');
             $table->string('number');
-            $table->string('payer_account')->nullable()->default(null);
-            $table->string('beneficiary')->nullable()->default(null);
-            $table->string('beneficiary_account')->nullable()->default(null);
-            $table->string('beneficiary_inn')->nullable()->default(null);
-            $table->string('beneficiary_kpp')->nullable()->default(null);
-            $table->string('beneficiary_country')->nullable()->default(null);
-            $table->string('beneficiary_city')->nullable()->default(null);
-            $table->string('beneficiary_street')->nullable()->default(null);
-            $table->string('beneficiary_bank_code')->nullable()->default(null);
-            $table->string('currency_operation_code')->nullable()->default(null);
-            $table->string('currency_agreement')->nullable()->default(null);
-            $table->string('budget_organization_code')->nullable()->default(null);
-            $table->string('income_code')->nullable()->default(null);
-            $table->string('region_code')->nullable()->default(null);
-            $table->string('have_bank_intermediary')->nullable()->default(null);
+            $table->string('payer_account');
+            // $table->integer('beneficiary');
             $table->string('payment_sum');
             $table->string('payment_purpose');
-            $table->string('comment')->nullable()->default(null);
-            $table->unsignedBigInteger('owner_id');
+            $table->string('comment')->nullable();
+            $table->unsignedBigInteger('owner_id'); // is beneficiary
             $table->foreign('owner_id')->references('id')->on('counterparties')->onDelete('cascade');
+            $table->integer('organization_id');
             $table->timestamps();
 
         });

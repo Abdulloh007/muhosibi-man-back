@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('transaction_doc_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('unit',5);
-            $table->decimal('price',20,2, true);
-            $table->float('balance')->default(0);
-            $table->text('description')->nullable();
-            $table->integer('organization_id');
+            $table->string('title');
+            $table->string('description')->nullable();
+            $table->enum('operation', ['income', 'payment'])->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('transaction_doc_types');
     }
 };

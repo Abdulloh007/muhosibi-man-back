@@ -10,11 +10,12 @@ class CounterpartyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $records = Counterparty::paginate(50);
+        $orgId = $request->user()->organizations[0]->id;
+        $records = Counterparty::all()->where('organization_id', $orgId);
 
-        return response()->json(['data' => $records], 200);
+        return response()->json($records, 200);
     }
 
     /**
@@ -30,7 +31,7 @@ class CounterpartyController extends Controller
      */
     public function store(Request $request)
     {
-         $validatedData = $request->validate([
+        $validatedData = $request->validate([
             'full_name' => 'required|string|max:255',
             'short_name' => 'required|string|max:50',
             'legal_address' => 'required|string|max:255',
@@ -58,16 +59,14 @@ class CounterpartyController extends Controller
     {
         $counterparty = Counterparty::find($counterpartyId);
 
-        if(!$counterparty){
+        if (!$counterparty) {
             return response()->json(
-                [
-    
-                ], 404
+                [],
+                404
             );
         }
 
-        return response()->json(['data'=>$counterparty],200);
-        
+        return response()->json(['data' => $counterparty], 200);
     }
 
     /**

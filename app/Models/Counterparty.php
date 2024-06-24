@@ -9,7 +9,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 
 class Counterparty extends Model
 {
-    use HasFactory; 
+    use HasFactory;
 
     protected $fillable = [
         'full_name',
@@ -26,6 +26,7 @@ class Counterparty extends Model
         'passport_details',
         'comment',
         'payment_method',
+        'organization_id'
     ];
 
     protected $casts = [
@@ -38,8 +39,19 @@ class Counterparty extends Model
         'comment' => 'json',
     ];
 
-    public function category() {
+    public function category()
+    {
         return $this->hasOne(CountrpartyCategory::class, 'category_id');
+    }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
+    public function payment_accounts()
+    {
+        return $this->hasMany(PaymentAccount::class, 'owner_id');
     }
 
     // Decrypt attribute with try-catch block
@@ -171,5 +183,4 @@ class Counterparty extends Model
     {
         $this->attributes['comment'] = Crypt::encryptString($value);
     }
-
 }

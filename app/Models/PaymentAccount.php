@@ -12,8 +12,10 @@ class PaymentAccount extends Model
     use HasFactory;
 
     protected $fillable = [
-        'number',
-        'BIC',
+        'account',
+        'bank_code',
+        'bank_name',
+        'bic',
         'сorrespondent_account', 
         'comments',
         'status',

@@ -37,6 +37,11 @@ class Stuff extends Model
         'passport_details' => 'json',
     ];
 
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
     public function setFirstNameAttribute($value)
     {
         $this->attributes['first_name'] = Crypt::encryptString($value);
@@ -201,6 +206,4 @@ class Stuff extends Model
             return null;
         }
     }
-
-
 }

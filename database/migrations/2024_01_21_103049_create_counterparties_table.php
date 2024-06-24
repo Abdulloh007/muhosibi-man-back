@@ -13,20 +13,21 @@ return new class extends Migration
     {
         Schema::create('counterparties', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name');
-            $table->string('short_name');
-            $table->string('legal_address');
-            $table->string('physic_address');
-            $table->string('site');
+            $table->text('full_name');
+            $table->string('short_name')->nullable();
+            $table->string('legal_address')->nullable();
+            $table->string('physic_address')->nullable();
+            $table->string('site')->nullable();
             $table->integer('category_id')->nullable();
-            $table->string('inn');
-            $table->string('kpp');
-            $table->string('contacts');
-            $table->string('for_sign_docs');
-            $table->string('by_person');
-            $table->string('passport_details');
-            $table->string('comment');
-            $table->enum('payment_method', ['Наличными','На карту зарплатного проекта',' На личную карту']);
+            $table->integer('organization_id');
+            $table->string('inn')->nullable();
+            $table->string('kpp')->nullable();
+            $table->string('contacts')->nullable();
+            $table->string('for_sign_docs')->nullable();
+            $table->string('by_person')->nullable();
+            $table->string('passport_details')->nullable();
+            $table->string('comment')->nullable();
+            $table->enum('payment_method', ['Наличными','На карту зарплатного проекта',' На личную карту'])->nullable();
             $table->timestamps();
         });
     }

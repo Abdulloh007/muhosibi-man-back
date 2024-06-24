@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('payment_accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('number');
-            $table->string('BIC');
-            $table->string('сorrespondent_account');
-            $table->string('comments');
-            $table->string('status');      
+            $table->string('account');
+            $table->string('bank_code')->nullable();
+            $table->string('bank_name');
+            $table->string('bic');
+            $table->string('сorrespondent_account')->nullable();
+            $table->string('comments')->nullable();
+            $table->enum('status', ['active', 'close'])->default('active');      
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')->references('id')->on('counterparties')->onDelete('cascade');
-            $table->float('balance');      
+            $table->float('balance')->default(0);
             $table->timestamps(); 
         });
     }

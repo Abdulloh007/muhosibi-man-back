@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('sum');
             $table->boolean('isGroup')->default(false);
             $table->integer('parent_id')->nullable();
+            $table->integer('organization_id');
             $table->enum('status', ['В работе', 'Ждет оплаты', 'Нет счёта', 'Нет акта/накладной/УПД', 'Подписание документов', 'Подписан', 'Не подписан', 'Завершён', 'Отменён']);
             $table->timestamps();
         });

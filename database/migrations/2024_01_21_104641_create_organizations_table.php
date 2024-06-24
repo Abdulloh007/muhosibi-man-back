@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->text('title');
             $table->string('inn')->nullable(); 
             $table->string('kpp')->nullable();
             $table->enum('tax_system', ['УСН доходы','УСН доходы минус расходы']);

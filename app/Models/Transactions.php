@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
+use League\CommonMark\Node\Block\Document;
 
 class Transactions extends Model
 {
@@ -14,23 +15,44 @@ class Transactions extends Model
     protected $fillable = [
         'operation',
         'type_id',
+        'doctype_id',
         'document_id',
         'resource',
         'title',
         'details',
+        'date',
         'total',
         'total_tax',
         'counterparty_id',
-        'payment_account', //
+        'organization_id',
+        'payment_account',
     ];
 
-    protected $casts = [
-        'details' => 'json',
-    ];
+    protected $casts = [];
+
+    public function type()
+    {
+        return $this->belongsTo(TransactionType::class, 'type_id');
+    }
 
     public function paymentAccount()
     {
         return $this->belongsTo(PaymentAccount::class, 'payment_account');
+    }
+
+    public function counterparty()
+    {
+        return $this->belongsTo(Counterparty::class);
+    }
+
+    public function document()
+    {
+        return $this->belongsTo(Document::class);
+    }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
     }
 
     public function getDetailsAttribute($value)
@@ -45,35 +67,5 @@ class Transactions extends Model
     public function setDetailsAttribute($value)
     {
         $this->attributes['details'] = Crypt::encryptString($value);
-    }
-
-
-    public function getTotalAttribute($value)
-    {
-        try {
-            return Crypt::decryptString($value);
-        } catch (DecryptException $e) {
-            return null;
-        }
-    }
-
-    public function setTotalAttribute($value)
-    {
-        $this->attributes['total'] = Crypt::encryptString($value);
-    }
-
-    public function getTotalTaxAttribute($value)
-    {
-        try {
-            return Crypt::decryptString($value);
-        } catch (DecryptException $e) {
-            return null;
-        }
-    }
-
-
-    public function setTotalTaxAttribute($value)
-    {
-        $this->attributes['total_tax'] = Crypt::encryptString($value);
     }
 }
