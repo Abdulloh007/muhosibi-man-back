@@ -17,11 +17,11 @@ class Documents extends Model
         'template',
         'doc_type',
         'with_sign_seal',
+        'doc_group_id',
         'public',
         'sum',
         'status',
-        'isGroup',
-        'parent_id'
+        'organization_id'
     ];
 
     protected $casts = [];
@@ -30,10 +30,10 @@ class Documents extends Model
     {
         return $this->belongsTo(DocumentsType::class, 'doc_type');
     }
-
-    public function parent()
+    
+    public function docGroup()
     {
-        return $this->belongsTo(Document::class, 'parent_id');
+        return $this->belongsTo(DocGroup::class, 'doc_group_id');
     }
 
     // Mutator for 'title'

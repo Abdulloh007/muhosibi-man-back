@@ -17,7 +17,7 @@ class DocumentsTypeController extends Controller
         $documentTypes = DocumentsType::all();
 
         // Optionally, you can return a JSON response with the retrieved document types
-        return response()->json(['data' => $documentTypes], 200);
+        return response()->json($documentTypes, 200);
     }
 
     /**

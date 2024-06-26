@@ -11,22 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documents_types', function (Blueprint $table) {
+        Schema::create('doc_groups', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
-            $table->text('metatag'); 
-            $table->enum('type', ['income', 'outgoing']); 
-            $table->enum('act', ['sign', 'pay', 'attention']); 
+            $table->text('comment');
+            $table->enum('status', ['В работе', 'Ждет оплаты', 'Нет счёта', 'Нет акта/накладной/УПД', 'Подписание документов', 'Подписан', 'Не подписан', 'Завершён', 'Отменён']);
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-    */
+     */
     public function down(): void
     {
-        Schema::dropIfExists('documents_types');
+        Schema::dropIfExists('doc_groups');
     }
 };

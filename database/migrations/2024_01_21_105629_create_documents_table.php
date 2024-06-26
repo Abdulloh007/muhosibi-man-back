@@ -20,8 +20,7 @@ return new class extends Migration
             $table->boolean('with_sign_seal');
             $table->text('public');
             $table->text('sum');
-            $table->boolean('isGroup')->default(false);
-            $table->integer('parent_id')->nullable();
+            $table->integer('doc_group_id')->nullable();
             $table->integer('organization_id');
             $table->enum('status', ['В работе', 'Ждет оплаты', 'Нет счёта', 'Нет акта/накладной/УПД', 'Подписание документов', 'Подписан', 'Не подписан', 'Завершён', 'Отменён']);
             $table->timestamps();
