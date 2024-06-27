@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
+use League\CommonMark\Node\Block\Document;
 
 class Counterparty extends Model
 {
@@ -52,6 +53,11 @@ class Counterparty extends Model
     public function payment_accounts()
     {
         return $this->hasMany(PaymentAccount::class, 'owner_id');
+    }
+    
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
     }
 
     // Decrypt attribute with try-catch block

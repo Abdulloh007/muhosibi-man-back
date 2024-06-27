@@ -65,55 +65,105 @@ class DocumentsTypeSeeder extends Seeder
         DB::table('documents_types')->insert([
             'title' => 'Договор',
             'description' => 'Договор',
-            'metatag' => json_encode($metaTags)
+            'metatag' => json_encode($metaTags),
+            'type' => 'outgoing',
+            'act' => 'sign'
         ]);
 
         DB::table('documents_types')->insert([
             'title' => 'Счёт',
             'description' => 'Счёт',
-            'metatag' => json_encode($metaTags)
+            'metatag' => json_encode($metaTags),
+            'type' => 'outgoing',
+            'act' => 'pay',
+            'hasInvoice' => true
         ]);
 
         DB::table('documents_types')->insert([
             'title' => 'Акт',
             'description' => 'Акт',
-            'metatag' => json_encode($metaTags)
+            'metatag' => json_encode($metaTags),
+            'type' => 'outgoing',
+            'act' => 'sign',
+            'hasInvoice' => true
         ]);
 
         DB::table('documents_types')->insert([
             'title' => 'Накладная',
             'description' => 'Накладная',
-            'metatag' => json_encode($metaTags)
+            'metatag' => json_encode($metaTags),
+            'type' => 'outgoing',
+            'act' => 'sign',
+            'hasInvoice' => true
         ]);
 
         DB::table('documents_types')->insert([
             'title' => 'УПД',
             'description' => 'УПД',
-            'metatag' => json_encode($metaTags)
+            'metatag' => json_encode($metaTags),
+            'type' => 'outgoing',
+            'act' => 'sign',
+            'hasInvoice' => true
+        ]);
+        
+        DB::table('documents_types')->insert([
+            'title' => 'Счёт',
+            'description' => 'Счёт',
+            'metatag' => json_encode($metaTags),
+            'type' => 'income',
+            'act' => 'pay',
+            'hasInvoice' => true
+        ]);
+
+        DB::table('documents_types')->insert([
+            'title' => 'Акт',
+            'description' => 'Акт',
+            'metatag' => json_encode($metaTags),
+            'type' => 'income',
+            'act' => 'sign',
+            'hasInvoice' => true
+        ]);
+
+        DB::table('documents_types')->insert([
+            'title' => 'Накладная',
+            'description' => 'Накладная',
+            'metatag' => json_encode($metaTags),
+            'type' => 'income',
+            'act' => 'sign',
+            'hasInvoice' => true
+        ]);
+
+        DB::table('documents_types')->insert([
+            'title' => 'УПД',
+            'description' => 'УПД',
+            'metatag' => json_encode($metaTags),
+            'type' => 'income',
+            'act' => 'sign',
+            'hasInvoice' => true
         ]);
 
         DB::table('documents_types')->insert([
             'title' => 'Счёт-фактура',
             'description' => 'Счёт-фактура',
-            'metatag' => json_encode($metaTags)
-        ]);
-
-        DB::table('documents_types')->insert([
-            'title' => 'Договор',
-            'description' => 'Договор',
-            'metatag' => json_encode($metaTags)
+            'metatag' => json_encode($metaTags),
+            'type' => 'outgoing',
+            'act' => 'none'
         ]);
 
         DB::table('documents_types')->insert([
             'title' => 'Акт сверки',
             'description' => 'Акт сверки',
-            'metatag' => json_encode($metaTags)
+            'metatag' => json_encode($metaTags),
+            'type' => 'outgoing',
+            'act' => 'none'
         ]);
 
         DB::table('documents_types')->insert([
             'title' => 'Другой документ',
             'description' => 'Другой документ',
-            'metatag' => json_encode($metaTags)
+            'metatag' => json_encode($metaTags),
+            'type' => 'outgoing',
+            'act' => 'attention'
         ]);
 
     }

@@ -13,6 +13,7 @@ class Invoices extends Model
     protected $fillable = [
         'document_id',
         'summary',
+        'sale'
     ];
 
     public function document()
@@ -22,6 +23,6 @@ class Invoices extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Products::class, 'invoice_product', 'invoice_id', 'product_id')->withPivot('count');
+        return $this->belongsToMany(Products::class, 'invoice_product', 'invoice_id', 'product_id')->withPivot(['count', 'price', 'sale']);
     }
 }

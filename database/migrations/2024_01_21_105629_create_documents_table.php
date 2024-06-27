@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('doc_type');
             $table->foreign('doc_type')->references('id')->on('documents_types')->onDelete('cascade');
             $table->boolean('with_sign_seal');
+            $table->integer('counterparty_id');
             $table->text('public');
             $table->text('sum');
             $table->integer('doc_group_id')->nullable();

@@ -18,6 +18,7 @@ class Documents extends Model
         'doc_type',
         'with_sign_seal',
         'doc_group_id',
+        'counterparty_id',
         'public',
         'sum',
         'status',
@@ -34,6 +35,11 @@ class Documents extends Model
     public function docGroup()
     {
         return $this->belongsTo(DocGroup::class, 'doc_group_id');
+    }
+    
+    public function counterparty()
+    {
+        return $this->belongsTo(Counterparty::class);
     }
 
     // Mutator for 'title'

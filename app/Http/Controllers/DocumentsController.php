@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Documents;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class DocumentsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Retrieve all documents from the 'documents' table
-        $documents = Documents::paginate(50);
+        $orgId = $request->user()->organizations[0]->id;
+        $documents = Documents::with(['documentType', 'docGroup'])->get()->where('organization_id', $orgId);
 
         // Optionally, you can return a JSON response with the retrieved documents
         return response()->json($documents, 200);
@@ -33,27 +34,39 @@ class DocumentsController extends Controller
      */
     public function store(Request $request)
     {
+        $userId = $request->user()->id;
+        $user = User::find($userId);
         // Validate incoming request data
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'template' => 'required|string',
+            'status' => 'required|string',
+            'counterparty_id' => 'required|integer',
             'metatag' => 'nullable|json',
             'doc_type' => 'required',
+            'doc_typedoc_group_id' => 'required',
             'with_sign_seal' => 'boolean',
             'public' => 'boolean',
             'sum' => 'numeric',
+            'products' => ''
             // Add other validation rules as needed
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['validation' => $validator->errors()]);
+            return response()->json(['validation' => $validator->errors()], 400);
+        }
+        $input = $request->all();
+        $input['organization_id'] = $user->organizations[0]->id;
+        
+        // Create a new document
+        $document = Documents::create($input);
+
+        if(isset($input['products'])) {
+            
         }
 
-        // Create a new document
-        $document = Documents::create($request->all());
-
         // Return a JSON response with the created document
-        return response()->json(['data' => $document], 201);
+        return response()->json($document, 200);
     }
 
     /**
@@ -63,19 +76,20 @@ class DocumentsController extends Controller
     {
         $documents = Documents::find($documentId);
 
-        if(!$documents){
+        if (!$documents) {
             return response()->json(
                 [
-                    'message'=>"Document not found"
-                ], 404
+                    'message' => "Document not found"
+                ],
+                404
             );
         }
 
         return response()->json(
             [
-                'data'=>$documents
+                'data' => $documents
             ]
-            );
+        );
     }
 
     /**

@@ -18,6 +18,6 @@ class Products extends Model
 
     public function invoices()
     {
-        return $this->belongsToMany(Invoices::class, 'invoice_product', 'product_id', 'invoice_id')->withPivot('count');
+        return $this->belongsToMany(Invoices::class, 'invoice_product', 'product_id', 'invoice_id')->withPivot(['count', 'price', 'sale']);
     }
 }

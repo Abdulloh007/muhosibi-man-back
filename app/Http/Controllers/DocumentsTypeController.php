@@ -37,6 +37,8 @@ class DocumentsTypeController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'metatag' => 'nullable|json',
+            'type' => 'required|string',
+            'type' => 'required|string'
         ]);
 
         if ($validator->fails()) {

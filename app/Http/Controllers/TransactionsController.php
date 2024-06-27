@@ -7,7 +7,7 @@ use App\Models\PaymentAccount;
 use App\Models\Transactions;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class TransactionsController extends Controller
 {

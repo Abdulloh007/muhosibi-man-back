@@ -17,7 +17,8 @@ return new class extends Migration
             $table->text('description');
             $table->text('metatag'); 
             $table->enum('type', ['income', 'outgoing']); 
-            $table->enum('act', ['sign', 'pay', 'attention']); 
+            $table->enum('act', ['sign', 'pay', 'attention', 'none']); 
+            $table->boolean('hasInvoice')->default(false); 
             $table->timestamps();
         });
     }

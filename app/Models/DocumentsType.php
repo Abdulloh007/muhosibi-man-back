@@ -16,11 +16,13 @@ class DocumentsType extends Model
         'description',
         'metatag',
         'type',
-        'act'
+        'act',
+        'hasInvoice'
     ];
 
     protected $casts = [
         'metatag' => 'json',
+        'hasInvoice' => 'boolean'
     ];
 
     public function documents()
