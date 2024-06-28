@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Counterparty;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CounterpartyController extends Controller
@@ -13,9 +14,9 @@ class CounterpartyController extends Controller
     public function index(Request $request)
     {
         $orgId = $request->user()->organizations[0]->id;
-        $records = Counterparty::all()->where('organization_id', $orgId);
+        $records = Counterparty::with(['category', 'payment_accounts'])->get()->where('organization_id', $orgId);
 
-        return response()->json($records, 200);
+        return response()->json($records->values(), 200);
     }
 
     /**
@@ -31,14 +32,18 @@ class CounterpartyController extends Controller
      */
     public function store(Request $request)
     {
+        $userId = $request->user()->id;
+        $user = User::find($userId);
+        
         $validatedData = $request->validate([
             'full_name' => 'required|string|max:255',
-            'short_name' => 'required|string|max:50',
-            'legal_address' => 'required|string|max:255',
-            'physic_address' => 'required|string|max:255',
+            'short_name' => 'nullable|string|max:50',
+            'legal_address' => 'nullable|string|max:255',
+            'physic_address' => 'nullable|string|max:255',
             'site' => 'nullable|string|max:255',
-            'inn' => 'required|integer',
-            'kpp' => 'required|integer',
+            'category_id' => 'nullable|integer',
+            'inn' => 'nullable|integer',
+            'kpp' => 'nullable|integer',
             'contacts' => 'nullable|json',
             'for_sign_docs' => 'nullable|json',
             'by_person' => 'nullable|json',
@@ -46,7 +51,8 @@ class CounterpartyController extends Controller
             'comment' => 'nullable|json',
             'payment_method' => 'nullable|string|max:50',
         ]);
-
+        
+        $validatedData['organization_id'] = $user->organizations[0]->id;
         $newRecord = Counterparty::create($validatedData);
 
         return response()->json(['data' => $newRecord], 201);

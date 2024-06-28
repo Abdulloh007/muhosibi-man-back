@@ -14,6 +14,7 @@ class Products extends Model
         'unit',
         'description',
         'balance',
+        'organization_id'
     ];
 
     public function invoices()

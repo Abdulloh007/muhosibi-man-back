@@ -15,7 +15,7 @@ class DocumentsController extends Controller
     public function index(Request $request)
     {
         $orgId = $request->user()->organizations[0]->id;
-        $documents = Documents::with(['documentType', 'docGroup'])->get()->where('organization_id', $orgId);
+        $documents = Documents::with(['documentType', 'docGroup', 'counterparty'])->get()->where('organization_id', $orgId);
 
         // Optionally, you can return a JSON response with the retrieved documents
         return response()->json($documents, 200);
@@ -44,11 +44,11 @@ class DocumentsController extends Controller
             'counterparty_id' => 'required|integer',
             'metatag' => 'nullable|json',
             'doc_type' => 'required',
-            'doc_typedoc_group_id' => 'required',
+            'doc_group_id' => 'nullable',
             'with_sign_seal' => 'boolean',
             'public' => 'boolean',
             'sum' => 'numeric',
-            'products' => ''
+            'products' => 'nullable'
             // Add other validation rules as needed
         ]);
 

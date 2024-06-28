@@ -66,7 +66,6 @@ Route::middleware('auth:api')->group( function () {
     Route::post('stuff-one/{id}', [StuffController::class, 'update']);
     Route::resource('activity', ActivitiesController::class);
     Route::resource('payments', PaymentController::class);
-    // Route::resource('products', ::class);
     Route::get('paymentsByOwner/{owner_id}', [PaymentController::class, 'getPaymentsByOwnerId']);
     Route::resource('invoices', InvoicesController::class);
     Route::resource('products', ProductsController::class);

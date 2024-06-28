@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class CountrpartyCategoryController extends Controller
 {
     public function index() {
-        $categories = CountrpartyCategory::paginate(50);
+        $categories = CountrpartyCategory::all();
 
         return response()->json($categories, 200);
     }

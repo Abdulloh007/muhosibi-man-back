@@ -34,15 +34,12 @@ class Counterparty extends Model
         'inn' => 'integer',
         'kpp' => 'integer',
         'contacts' => 'json',
-        'for_sign_docs' => 'json',
-        'by_person' => 'json',
-        'passport_details' => 'json',
         'comment' => 'json',
     ];
 
     public function category()
     {
-        return $this->hasOne(CountrpartyCategory::class, 'category_id');
+        return $this->belongsTo(CountrpartyCategory::class, 'category_id');
     }
 
     public function organization()
