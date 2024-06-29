@@ -20,13 +20,13 @@ return new class extends Migration
             $table->enum('gender', ['Мужской','Женский']);
             $table->string('citizenship');
             $table->enum('contract_type', ['Трудовой', 'Гражданско-правовой', 'Аренды у физлица', 'С учредителем']);
-            $table->string('position');
+            $table->text('position');
             $table->date('begin_date');
             $table->string('experience_days');
             $table->string("unique_number");
             $table->text('passport_details')->nullable();
-            $table->string('legal_address')->nullable();
-            $table->string('physic_address')->nullable();
+            $table->text('legal_address')->nullable();
+            $table->text('physic_address')->nullable();
             $table->string('inn');
             $table->integer('organization_id');
             $table->enum('payment_method', ['Наличными','На карту зарплатного проекта','На личную карту']);

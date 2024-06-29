@@ -34,7 +34,6 @@ class Counterparty extends Model
         'inn' => 'integer',
         'kpp' => 'integer',
         'contacts' => 'json',
-        'comment' => 'json',
     ];
 
     public function category()

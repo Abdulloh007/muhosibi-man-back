@@ -45,10 +45,10 @@ class CounterpartyController extends Controller
             'inn' => 'nullable|integer',
             'kpp' => 'nullable|integer',
             'contacts' => 'nullable|json',
-            'for_sign_docs' => 'nullable|json',
-            'by_person' => 'nullable|json',
-            'passport_details' => 'nullable|json',
-            'comment' => 'nullable|json',
+            'for_sign_docs' => 'nullable',
+            'by_person' => 'nullable',
+            'passport_details' => 'nullable',
+            'comment' => 'nullable',
             'payment_method' => 'nullable|string|max:50',
         ]);
         
