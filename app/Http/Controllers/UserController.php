@@ -6,6 +6,7 @@ use App\Models\Cashbox;
 use App\Models\Counterparty;
 use App\Models\User;
 use App\Models\Devices;
+use App\Models\Documents;
 use App\Models\Organization;
 use App\Models\PaymentAccount;
 use Exception;
@@ -166,6 +167,10 @@ class UserController extends Controller
                 $success['id'] =  $user->id;
                 $success['token'] =  $user->createToken('MuhosibiMan')->accessToken;
                 $success['organizations'] = $user->organizations;
+                $success['counterparty'] =  $user->organizations[0]->counterparties[0]->id;
+                $success['payment_account'] =  $user->organizations[0]->counterparties[0]->payment_accounts[0]->id;
+                $success['cashbox'] =  $user->organizations[0]->cashboxes[0]->id;
+                $success['documents'] =  $user->organizations[0]->documents;
 
                 return response()->json($success, 200);
             } else {
@@ -309,6 +314,7 @@ class UserController extends Controller
             $user['counterparties'] = $user->organizations[0]->counterparties;
             $user['payment_accounts'] = $user->organizations[0]->counterparties[0]->payment_accounts;
             $user['cashboxes'] = $user->organizations[0]->cashboxes;
+            $user['documents'] =  Documents::with(['invoice', 'documentType', 'docGroup'])->get()->where('organization_id', $user->organizations[0]->id);
         }
 
         return response()->json($user, 200);

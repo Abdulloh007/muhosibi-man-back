@@ -13,7 +13,8 @@ class Invoices extends Model
     protected $fillable = [
         'document_id',
         'summary',
-        'sale'
+        'sale',
+        'organization_id'
     ];
 
     public function document()

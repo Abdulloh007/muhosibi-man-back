@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 
+
 class Organization extends Model
 {
     use HasFactory;
@@ -51,6 +52,11 @@ class Organization extends Model
     public function counterparties()
     {
         return $this->hasMany(Counterparty::class);
+    }
+    
+    public function documents()
+    {
+        return $this->hasMany(Documents::class);
     }
 
 

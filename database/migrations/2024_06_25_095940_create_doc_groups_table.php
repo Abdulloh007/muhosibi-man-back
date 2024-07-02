@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('doc_groups', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('comment');
-            $table->enum('status', ['В работе', 'Ждет оплаты', 'Нет счёта', 'Нет акта/накладной/УПД', 'Подписание документов', 'Подписан', 'Не подписан', 'Завершён', 'Отменён']);
+            $table->text('comment')->nullable();
+            $table->enum('status', ['В работе', 'Ждет оплаты', 'Нет счёта', 'Нет акта/накладной/УПД', 'Подписание документов', 'Подписан', 'Не подписан', 'Завершён', 'Отменён'])->default('В работе');
             $table->timestamps();
         });
     }

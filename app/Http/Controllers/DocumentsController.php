@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DocGroup;
 use App\Models\Documents;
+use App\Models\Invoices;
+use App\Models\Products;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -58,11 +61,32 @@ class DocumentsController extends Controller
         $input = $request->all();
         $input['organization_id'] = $user->organizations[0]->id;
         
+        if (isset($input["group"])) {
+            $docGroup = DocGroup::create(["title" => $input["group"]]);
+            $input["doc_group_id"] = $docGroup->id;
+        }
+
+        // dd($input);
         // Create a new document
         $document = Documents::create($input);
 
         if(isset($input['products'])) {
+            $invoice = Invoices::create([
+                'document_id' => $document->id,
+                'summary' => $document->sum,
+                'sale' => 0,
+                'organization_id' => $user->organizations[0]->id,
+            ]);
             
+            foreach ($input['products'] as $product) {
+                if ($product['product_id'] != 0) {
+                    $invoice->products()->attach($product['product_id'], ['count' => $product['count'], 'price' => $product['price']]);
+                    $productDB = Products::find($product['product_id']);
+                    if (isset($productDB)) {
+                        $productDB->update(["balance" => $productDB["balance"] - $product['count']]);
+                    }
+                }
+            }
         }
 
         // Return a JSON response with the created document

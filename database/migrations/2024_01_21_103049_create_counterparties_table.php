@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('inn')->nullable();
             $table->string('kpp')->nullable();
             $table->text('contacts')->nullable();
-            $table->string('for_sign_docs')->nullable();
-            $table->string('by_person')->nullable();
+            $table->text('for_sign_docs')->nullable();
+            $table->text('by_person')->nullable();
             $table->text('passport_details')->nullable();
             $table->text('comment')->nullable();
             $table->enum('payment_method', ['Наличными','На карту зарплатного проекта',' На личную карту'])->nullable();

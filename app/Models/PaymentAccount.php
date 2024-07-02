@@ -23,9 +23,7 @@ class PaymentAccount extends Model
         'balance'
     ];
 
-    protected $casts = [
-        'number' => 'integer',
-    ];
+    protected $casts = [];
 
     public function owner()
     {
@@ -46,7 +44,7 @@ class PaymentAccount extends Model
         }
     }
 
-    public function getBICAttribute($value)
+    public function getBicAttribute($value)
     {
         try {
             return Crypt::decryptString($value);
@@ -82,7 +80,7 @@ class PaymentAccount extends Model
 
     public function setBICAttribute($value)
     {
-        $this->attributes['BIC'] = Crypt::encryptString($value);
+        $this->attributes['bic'] = Crypt::encryptString($value);
     }
 
     public function setCorrespondentAccountAttribute($value)

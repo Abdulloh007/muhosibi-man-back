@@ -42,6 +42,16 @@ class Documents extends Model
         return $this->belongsTo(Counterparty::class);
     }
 
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+    
+    public function invoice()
+    {
+        return $this->hasOne(Invoices::class, 'document_id');
+    }
+
     // Mutator for 'title'
     public function setTitleAttribute($value)
     {
