@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DocGroup;
 use App\Models\Documents;
+use App\Models\DocumentsType;
 use App\Models\Invoices;
 use App\Models\Products;
 use App\Models\User;
@@ -60,7 +61,8 @@ class DocumentsController extends Controller
         }
         $input = $request->all();
         $input['organization_id'] = $user->organizations[0]->id;
-        
+        $doc_type = DocumentsType::find($input['doc_type']);
+
         if (isset($input["group"])) {
             $docGroup = DocGroup::create(["title" => $input["group"]]);
             $input["doc_group_id"] = $docGroup->id;
@@ -83,7 +85,11 @@ class DocumentsController extends Controller
                     $invoice->products()->attach($product['product_id'], ['count' => $product['count'], 'price' => $product['price']]);
                     $productDB = Products::find($product['product_id']);
                     if (isset($productDB)) {
-                        $productDB->update(["balance" => $productDB["balance"] - $product['count']]);
+                        if ($doc_type->type === 'income') {
+                            $productDB->update(["balance" => $productDB["balance"] + $product['count']]);
+                        }else {
+                            $productDB->update(["balance" => $productDB["balance"] - $product['count']]);
+                        }
                     }
                 }
             }
