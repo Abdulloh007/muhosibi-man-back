@@ -58,6 +58,11 @@ class Organization extends Model
     {
         return $this->hasMany(Documents::class);
     }
+    
+    public function transactions()
+    {
+        return $this->hasMany(Transactions::class);
+    }
 
 
 

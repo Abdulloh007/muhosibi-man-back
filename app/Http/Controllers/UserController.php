@@ -9,6 +9,7 @@ use App\Models\Devices;
 use App\Models\Documents;
 use App\Models\Organization;
 use App\Models\PaymentAccount;
+use App\Models\Transactions;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -315,6 +316,21 @@ class UserController extends Controller
             $user['payment_accounts'] = $user->organizations[0]->counterparties[0]->payment_accounts;
             $user['cashboxes'] = $user->organizations[0]->cashboxes;
             $user['documents'] =  Documents::with(['invoice', 'documentType', 'docGroup'])->get()->where('organization_id', $user->organizations[0]->id);
+            
+            $transactions = Transactions::with(['type',])->get()->where('organization_id', $user->organizations[0]->id);
+            $incomes_total = 0;
+            $outgoings_total = 0;
+            foreach ($transactions as $transaction) {
+                if($transaction->type->operation === 'income'){
+                    $incomes_total = $incomes_total + $transaction->total;
+                }elseif($transaction->type->operation === 'payment'){
+                    $outgoings_total = $outgoings_total + $transaction->total;
+                }
+            }
+
+            // Надо будет оптимизировать
+            $user['incomes_total'] = $incomes_total;
+            $user['outgoing_total'] = $outgoings_total;
         }
 
         return response()->json($user, 200);

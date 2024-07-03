@@ -14,7 +14,7 @@ class TransactionsController extends Controller
     public function index(Request $request)
     {
         $orgId = $request->user()->organizations[0]->id;
-        $transactions = Transactions::with(['type'])->get()->where('organization_id', $orgId);
+        $transactions = Transactions::with(['type', 'counterparty'])->get()->where('organization_id', $orgId);
         return response()->json($transactions, 200);
     }
 
