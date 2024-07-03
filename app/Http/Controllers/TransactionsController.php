@@ -31,7 +31,7 @@ class TransactionsController extends Controller
             );
         }
 
-        return response()->json($transaction);
+        return response()->json($transaction->values());
     }
 
 
