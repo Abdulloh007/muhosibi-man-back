@@ -15,7 +15,7 @@ class TransactionsController extends Controller
     {
         $orgId = $request->user()->organizations[0]->id;
         $transactions = Transactions::with(['type', 'counterparty'])->get()->where('organization_id', $orgId);
-        return response()->json($transactions, 200);
+        return response()->json($transactions->values(), 200);
     }
 
     public function show($id)
@@ -31,7 +31,7 @@ class TransactionsController extends Controller
             );
         }
 
-        return response()->json($transaction->values());
+        return response()->json($transaction);
     }
 
 
