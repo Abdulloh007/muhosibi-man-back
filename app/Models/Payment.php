@@ -28,6 +28,16 @@ class Payment extends Model
     {
         return $this->belongsTo(Counterparty::class, 'owner_id');
     }
+    
+    public function payer_account()
+    {
+        return $this->belongsTo(PaymentAccount::class, 'payer_account');
+    }
+    
+    public function type()
+    {
+        return $this->belongsTo(TransactionType::class, 'type_id');
+    }
 
     // Mutator for 'date'
     public function setDateAttribute($value)
@@ -39,12 +49,6 @@ class Payment extends Model
     public function setNumberAttribute($value)
     {
         $this->attributes['number'] = Crypt::encryptString($value);
-    }
-
-    // Mutator for 'payer_account'
-    public function setPayerAccountAttribute($value)
-    {
-        $this->attributes['payer_account'] = Crypt::encryptString($value);
     }
 
     // Mutator for 'payment_sum'
@@ -83,16 +87,6 @@ class Payment extends Model
 
     // Accessor for 'number'
     public function getNumberAttribute($value)
-    {
-        try {
-            return Crypt::decryptString($value);
-        } catch (DecryptException $e) {
-            return null;
-        }
-    }
-
-    // Accessor for 'payer_account'
-    public function getPayerAccountAttribute($value)
     {
         try {
             return Crypt::decryptString($value);
