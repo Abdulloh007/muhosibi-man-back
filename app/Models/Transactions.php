@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
-use League\CommonMark\Node\Block\Document;
 
 class Transactions extends Model
 {
@@ -47,7 +46,7 @@ class Transactions extends Model
 
     public function document()
     {
-        return $this->belongsTo(Document::class);
+        return $this->belongsTo(Documents::class);
     }
 
     public function organization()

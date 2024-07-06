@@ -51,6 +51,7 @@ Route::middleware('auth:api')->group( function () {
     Route::resource('cashbox', CashboxController::class);
     Route::resource('notification', NotificationsController::class);
     Route::get('user-notifications/{user}', [NotificationsController::class, 'show_by_user']);
+    Route::get('docs4transac/{counterparty}', [DocumentsController::class, 'getDocs4Transaction']);
     Route::resource('payment-account', PaymentAccountController::class);
     Route::resource('counterparty', CounterpartyController::class);
     Route::resource('counterparty-category', CountrpartyCategoryController::class);

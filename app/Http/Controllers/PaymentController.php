@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Storage;
 
 class PaymentController extends Controller
@@ -11,10 +13,11 @@ class PaymentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $payments = Payment::all();
-        return response()->json($payments);
+        $orgId = $request->user()->organizations[0]->id;
+        $payments = Payment::with('owner')->get()->where('organization_id', $orgId);
+        return response()->json($payments->values());
     }
 
     /**
@@ -26,6 +29,9 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
 
+        $userId = $request->user()->id;
+        $user = User::find($userId);
+
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $input = $request->all();
@@ -33,24 +39,43 @@ class PaymentController extends Controller
 
             $fileContents = file_get_contents($file->getPathname());
 
-            $json = json_decode($fileContents,true)['payments'];
+            $json = json_decode($fileContents, true)['payments'];
 
-            foreach($json as $item){
-                foreach($item as $key=>$i){
-                    if(is_array($item[$key])){
+            foreach ($json as $item) {
+                foreach ($item as $key => $i) {
+                    if (is_array($item[$key])) {
                         $item[$key] = json_encode($item[$key]);
                     }
                 }
                 $item['owner_id'] = $owner_id;
+                $item['organization_id'] = $user->organizations[0]->id;
                 $payment = Payment::create($item);
-                
             }
+            
+            return response()->json(['status' => 'Successfully Saved !'], 200);
+        } elseif ($request->input()) {
+            $validator = Validator::make($request->all(), [
+                'type_id' => 'required',
+                'date' => 'required',
+                'payment_sum' => 'required',
+                'payment_purpose' => 'required',
+                'comment' => 'nullable',
+                'owner_id' => 'required',
+            ]);
+    
+            if ($validator->fails()) {
+                return response()->json(['validation' => $validator->errors()], 400);
+            }
+            
+            $input = $request->input();
+            $input['payer_account'] = $user->organizations[0]->counterparties[0]->payment_accounts[0]->id;
+            $input['organization_id'] = $user->organizations[0]->id;
 
-            return response()->json(['status'=>'Successfully Saved !'], 200);
+            $payment = Payment::create($input);
+            return response()->json($payment, 200);
         } else {
             return response()->json(['error' => 'No file attached in the request'], 400);
         }
-
     }
 
     public function getPaymentsByOwnerId(Request $request, $owner_id)
@@ -66,7 +91,7 @@ class PaymentController extends Controller
                 if (is_string($value) && is_array(json_decode($value, true))) {
                     $payment->$key = json_decode($value, true);
                 }
-                if(is_null($value)){
+                if (is_null($value)) {
                     unset($payment->$key);
                 }
                 unset($payment->id);

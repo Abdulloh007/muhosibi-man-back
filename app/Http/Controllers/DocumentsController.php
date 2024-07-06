@@ -72,14 +72,14 @@ class DocumentsController extends Controller
         // Create a new document
         $document = Documents::create($input);
 
-        if(isset($input['products'])) {
+        if (isset($input['products'])) {
             $invoice = Invoices::create([
                 'document_id' => $document->id,
                 'summary' => $document->sum,
                 'sale' => 0,
                 'organization_id' => $user->organizations[0]->id,
             ]);
-            
+
             foreach ($input['products'] as $product) {
                 if ($product['product_id'] != 0) {
                     $invoice->products()->attach($product['product_id'], ['count' => $product['count'], 'price' => $product['price']]);
@@ -87,7 +87,7 @@ class DocumentsController extends Controller
                     if (isset($productDB)) {
                         if ($doc_type->type === 'income') {
                             $productDB->update(["balance" => $productDB["balance"] + $product['count']]);
-                        }else {
+                        } else {
                             $productDB->update(["balance" => $productDB["balance"] - $product['count']]);
                         }
                     }
@@ -181,5 +181,14 @@ class DocumentsController extends Controller
 
         // Optionally, you can return a response with a success message
         return response()->json(['message' => 'Document deleted successfully'], 200);
+    }
+
+    public function getDocs4Transaction(Request $request, $counterparty)
+    {
+        $orgId = $request->user()->organizations[0]->id;
+        $documents = Documents::with(['documentType', 'docGroup', 'counterparty'])->get()->where('organization_id', $orgId)->where('counterparty_id', $counterparty);
+
+        // Optionally, you can return a JSON response with the retrieved documents
+        return response()->json($documents->values(), 200);
     }
 }

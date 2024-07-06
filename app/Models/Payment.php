@@ -19,6 +19,7 @@ class Payment extends Model
         'payment_sum',
         'payment_purpose',
         'comment',
+        'status',
         'owner_id',
         'organization_id',
     ];
@@ -26,12 +27,6 @@ class Payment extends Model
     public function owner()
     {
         return $this->belongsTo(Counterparty::class, 'owner_id');
-    }
-
-    // Mutator for 'type'
-    public function setTypeAttribute($value)
-    {
-        $this->attributes['type'] = Crypt::encryptString($value);
     }
 
     // Mutator for 'date'
@@ -74,16 +69,6 @@ class Payment extends Model
     public function setCommentAttribute($value)
     {
         $this->attributes['comment'] = Crypt::encryptString($value);
-    }
-
-    // Accessor for 'type'
-    public function getTypeAttribute($value)
-    {
-        try {
-            return Crypt::decryptString($value);
-        } catch (DecryptException $e) {
-            return null;
-        }
     }
 
     // Accessor for 'date'
