@@ -94,23 +94,23 @@ class CounterpartyController extends Controller
             return response()->json(['message' => 'Counterparty not found'], 404);
         }
 
-        $validatedData = $request->validate([
-            'full_name' => 'string|max:255',
-            'short_name' => 'string|max:50',
-            'legal_address' => 'string|max:255',
-            'physic_address' => 'string|max:255',
-            'site' => 'nullable|string|max:255',
-            'inn' => 'integer',
-            'kpp' => 'integer',
-            'contacts' => 'nullable|json',
-            'for_sign_docs' => 'nullable|json',
-            'by_person' => 'nullable|json',
-            'passport_details' => 'nullable|json',
-            'comment' => 'nullable|json',
-            'payment_method' => 'nullable|string|max:50',
-        ]);
+        // $validatedData = $request->validate([
+        //     'full_name' => 'string|max:255',
+        //     'short_name' => 'string|max:50',
+        //     'legal_address' => 'string|max:255',
+        //     'physic_address' => 'string|max:255',
+        //     'site' => 'nullable|string|max:255',
+        //     'inn' => 'integer',
+        //     'kpp' => 'integer',
+        //     'contacts' => 'nullable|json',
+        //     'for_sign_docs' => 'nullable|json',
+        //     'by_person' => 'nullable|json',
+        //     'passport_details' => 'nullable|json',
+        //     'comment' => 'nullable|json',
+        //     'payment_method' => 'nullable|string|max:50',
+        // ]);
 
-        $record->update($validatedData);
+        $record->update($request->all());
 
         return response()->json(['message' => 'Counterparty updated successfully'], 200);
     }

@@ -104,9 +104,10 @@ class DocumentsController extends Controller
      */
     public function show(int $documentId)
     {
-        $documents = Documents::find($documentId);
+        $document = Documents::with(['documentType', 'docGroup', 'counterparty', 'invoice'])->find($documentId);
+        $document['products'] = $document->invoice->products;
 
-        if (!$documents) {
+        if (!$document) {
             return response()->json(
                 [
                     'message' => "Document not found"
@@ -117,7 +118,7 @@ class DocumentsController extends Controller
 
         return response()->json(
             [
-                'data' => $documents
+                'data' => $document
             ]
         );
     }

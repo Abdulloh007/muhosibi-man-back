@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('template');
+            $table->text('description');
             $table->unsignedBigInteger('doc_type');
             $table->foreign('doc_type')->references('id')->on('documents_types')->onDelete('cascade');
             $table->boolean('with_sign_seal');
