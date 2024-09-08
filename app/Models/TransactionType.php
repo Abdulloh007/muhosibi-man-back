@@ -14,7 +14,9 @@ class TransactionType extends Model
         'description',
         'parent_id',
         'operation',
-        'is_group'
+        'is_group',
+        'dual_code',
+        'penta_code',
     ];
 
     protected $casts = [

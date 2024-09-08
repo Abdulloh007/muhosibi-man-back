@@ -18,6 +18,9 @@ return new class extends Migration
             $table->integer('parent_id')->nullable();
             $table->enum('operation', ['income', 'payment'])->nullable();
             $table->boolean('is_group')->default(false);
+            $table->string('dual_code')->nullable();
+            $table->string('penta_code')->nullable();
+            $table->enum('type', ['active', 'passive'])->nullable();
             $table->timestamps();
         });
     }

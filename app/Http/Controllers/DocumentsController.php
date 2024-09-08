@@ -22,7 +22,7 @@ class DocumentsController extends Controller
         $documents = Documents::with(['documentType', 'docGroup', 'counterparty'])->get()->where('organization_id', $orgId);
 
         // Optionally, you can return a JSON response with the retrieved documents
-        return response()->json($documents, 200);
+        return response()->json($documents->values(), 200);
     }
 
     /**
