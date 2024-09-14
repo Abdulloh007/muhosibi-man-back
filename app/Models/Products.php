@@ -12,6 +12,7 @@ class Products extends Model
         'name',
         'price',
         'unit',
+        'type',
         'description',
         'balance',
         'organization_id'
