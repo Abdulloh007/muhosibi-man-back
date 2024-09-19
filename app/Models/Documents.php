@@ -33,7 +33,7 @@ class Documents extends Model
     }
     
     public function docGroup()
-    {
+    { 
         return $this->belongsTo(DocGroup::class, 'doc_group_id');
     }
     
