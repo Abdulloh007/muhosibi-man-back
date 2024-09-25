@@ -18,6 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CounterpartyCategorySeeder::class);
         $this->call(TransactionTypeSeeder::class);
         $this->call(TransactionDocTypeSeeder::class);
-
+        $this->call(DocGroupSeeder::class);
     }
 }

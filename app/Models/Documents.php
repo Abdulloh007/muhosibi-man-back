@@ -22,7 +22,8 @@ class Documents extends Model
         'public',
         'sum',
         'status',
-        'organization_id'
+        'organization_id',
+        'description'
     ];
 
     protected $casts = [];
@@ -58,8 +59,24 @@ class Documents extends Model
         $this->attributes['title'] = Crypt::encryptString($value);
     }
 
+    // Mutator for 'description'
+    public function setDescriptionAttribute($value)
+    {
+        $this->attributes['description'] = Crypt::encryptString($value);
+    }
+
     // Accessor for 'title'
     public function getTitleAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
+    }
+
+    // Accessor for 'title'
+    public function getDescriptionAttribute($value)
     {
         try {
             return Crypt::decryptString($value);

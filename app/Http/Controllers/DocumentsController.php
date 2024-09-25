@@ -16,10 +16,10 @@ class DocumentsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, $status = 0)
     {
         $orgId = $request->user()->organizations[0]->id;
-        $documents = Documents::with(['documentType', 'docGroup', 'counterparty'])->get()->where('organization_id', $orgId);
+        $documents = Documents::with(['documentType', 'docGroup', 'counterparty'])->where('organization_id', $orgId)->where('deleted', $status)->get();
 
         // Optionally, you can return a JSON response with the retrieved documents
         return response()->json($documents->values(), 200);
