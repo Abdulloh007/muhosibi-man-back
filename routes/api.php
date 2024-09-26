@@ -5,6 +5,7 @@ use App\Http\Controllers\CashboxController;
 use App\Http\Controllers\CounterpartyController;
 use App\Http\Controllers\CountrpartyCategoryController;
 use App\Http\Controllers\DevicesController;
+use App\Http\Controllers\DocGroupController;
 use App\Http\Controllers\DocumentsController;
 use App\Http\Controllers\DocumentsTypeController;
 use App\Http\Controllers\InvoicesController;
@@ -57,6 +58,7 @@ Route::middleware('auth:api')->group( function () {
     Route::resource('counterparty-category', CountrpartyCategoryController::class);
     Route::resource('doctypes', DocumentsTypeController::class);
     Route::resource('documents', DocumentsController::class);
+    Route::get('documents/status/{status?}', [DocumentsController::class,'index']);
     Route::resource('transactions', TransactionsController::class);
     Route::get('transaction-types', [TransactionTypeController::class, 'index']);
     Route::get('transaction-doctypes', [TransactionDocTypeController::class, 'index']);
@@ -70,5 +72,7 @@ Route::middleware('auth:api')->group( function () {
     Route::get('paymentsByOwner/{owner_id}', [PaymentController::class, 'getPaymentsByOwnerId']);
     Route::resource('invoices', InvoicesController::class);
     Route::resource('products', ProductsController::class);
-
+    Route::get('docgroups', [DocGroupController::class, 'index']);
 });
+
+ 

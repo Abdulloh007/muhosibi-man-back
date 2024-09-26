@@ -52,14 +52,17 @@ class DocumentsController extends Controller
             'with_sign_seal' => 'boolean',
             'public' => 'boolean',
             'sum' => 'numeric',
-            'products' => 'nullable'
+            'products' => 'nullable',
+            'group'=>'nullable',
             // Add other validation rules as needed
         ]);
 
+        $input = $request->all();
+        
+        
         if ($validator->fails()) {
             return response()->json(['validation' => $validator->errors()], 400);
         }
-        $input = $request->all();
         $input['organization_id'] = $user->organizations[0]->id;
         $doc_type = DocumentsType::find($input['doc_type']);
 
