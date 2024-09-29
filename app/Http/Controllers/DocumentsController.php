@@ -8,6 +8,7 @@ use App\Models\DocumentsType;
 use App\Models\Invoices;
 use App\Models\Products;
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -63,12 +64,33 @@ class DocumentsController extends Controller
         if ($validator->fails()) {
             return response()->json(['validation' => $validator->errors()], 400);
         }
+
+
         $input['organization_id'] = $user->organizations[0]->id;
         $doc_type = DocumentsType::find($input['doc_type']);
 
         if (isset($input["group"])) {
-            $docGroup = DocGroup::create(["title" => $input["group"]]);
-            $input["doc_group_id"] = $docGroup->id;
+            $grIsset = 0;
+            $user = Auth::user();
+            $organizations = $user->organizations()->get();
+            foreach($organizations as $organization) {
+                $documents = $organization->documents()->get();
+                foreach($documents as $document) {
+                    $doc = $document->docGroup()->first();
+                    if(!empty($doc) && $doc != null) {
+                        $var = $doc->title;
+                        if($var == $input["group"]) {
+                            $grIsset += 1; 
+                            if($grIsset==1)
+                                $input["doc_group_id"] = $doc->id;
+                        }
+                    }
+                }
+            }
+            if(!$grIsset){
+                $docGroup = DocGroup::create(["title" => $input["group"]]);
+                $input["doc_group_id"] = $docGroup->id;
+            }
         }
 
         // dd($input);

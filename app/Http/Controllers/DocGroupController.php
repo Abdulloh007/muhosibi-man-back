@@ -20,9 +20,12 @@ class DocGroupController extends Controller
         foreach($organizations as $organization) {
             $documents = $organization->documents()->get();
             foreach($documents as $document) {
-                $var = $document->docGroup()->first()->title;
-                if(!in_array($var,$docgroup))
-                    array_push($docgroup, $document->docGroup()->first()->title);
+                $doc = $document->docGroup()->first();
+                if(!empty($doc) && $doc != null) {
+                    $var = $doc->title;
+                    if(!in_array($var,$docgroup))
+                        $docgroup[$doc->id] = $doc->title;
+                }
             }
         }
         return response()->json(['data'=> $docgroup]);
