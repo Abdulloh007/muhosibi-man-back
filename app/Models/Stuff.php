@@ -28,6 +28,7 @@ class Stuff extends Model
         'inn',
         'payment_method',
         'organization_id',
+        'salary',
         'status'
     ];
 

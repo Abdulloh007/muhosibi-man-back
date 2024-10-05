@@ -29,6 +29,7 @@ return new class extends Migration
             $table->text('physic_address')->nullable();
             $table->string('inn');
             $table->integer('organization_id');
+            $table->decimal('salary',10,2)->nullable();
             $table->enum('payment_method', ['Наличными','На карту зарплатного проекта','На личную карту']);
             $table->enum('status', ['Работает','Уволен','В отпуске', 'На декрете']);
             $table->timestamps();

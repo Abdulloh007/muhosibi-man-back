@@ -22,9 +22,11 @@ return new class extends Migration
             $table->integer('counterparty_id');
             $table->text('public');
             $table->text('sum');
-            $table->integer('doc_group_id')->nullable();
+            $table->unsignedBigInteger('doc_group_id')->nullable();
+            $table->foreign('doc_group_id')->references('id')->on('doc_groups')->onDelete('cascade');
             $table->integer('organization_id');
             $table->enum('status', ['В работе', 'Ждет оплаты', 'Нет счёта', 'Нет акта/накладной/УПД', 'Подписание документов', 'Подписан', 'Не подписан', 'Завершён', 'Отменён']);
+            $table->tinyInteger('deleted')->default(0);
             $table->timestamps();
         });
     }

@@ -49,6 +49,7 @@ class StuffController extends Controller
             'inn' => 'required|string',
             'payment_method' => 'required|string',
             'organization_id' => 'required|integer',
+            'salary' => 'nullable',
         ]);
 
         // Create a new employee instance with the validated data

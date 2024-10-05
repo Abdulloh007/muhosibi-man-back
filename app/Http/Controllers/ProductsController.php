@@ -23,11 +23,12 @@ class ProductsController extends Controller
         $user = User::find($userId);
         
         $validatedData = $request->validate([
-            'name' => 'required|string',
-            'unit' => 'required|string|max:5',
-            'price' => 'required|numeric',
-            'balance' => 'required|numeric',
-            'description' => 'nullable|string',
+            'name' => 'required | string',
+            'unit' => 'required | string | max:5',
+            'price' => 'required | numeric',
+            'type' => 'required | numeric',
+            'balance' => 'required | numeric',
+            'description' => 'nullable | string',
         ]);
 
         
@@ -50,6 +51,7 @@ class ProductsController extends Controller
             'name' => 'sometimes|string',
             'unit' => 'sometimes|string|max:5',
             'price' => 'sometimes|numeric',
+            'type' => 'required | numeric',
             'description' => 'nullable|string',
         ]);
 

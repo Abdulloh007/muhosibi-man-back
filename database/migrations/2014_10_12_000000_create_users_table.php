@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('gender', ['male','female', 'other'])->nullable();
             $table->string('age')->nullable();
             $table->date('birth')->nullable();
-            $table->string('email');
+            $table->text('email');
             $table->string('phone');
             $table->string('password');
             $table->string('code_phrase')->nullable();

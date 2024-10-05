@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('balance')->default(0);
             $table->text('description')->nullable();
             $table->integer('organization_id');
+            $table->enum('type',["Товар","Услуга"]);
             $table->timestamps();
         });
     }

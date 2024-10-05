@@ -97,14 +97,14 @@ class DocumentsTypeSeeder extends Seeder
             'hasInvoice' => true
         ]);
 
-        DB::table('documents_types')->insert([
-            'title' => 'УПД',
-            'description' => 'УПД',
-            'metatag' => json_encode($metaTags),
-            'type' => 'outgoing',
-            'act' => 'sign',
-            'hasInvoice' => true
-        ]);
+        // DB::table('documents_types')->insert([
+        //     'title' => 'УПД',
+        //     'description' => 'УПД',
+        //     'metatag' => json_encode($metaTags),
+        //     'type' => 'outgoing',
+        //     'act' => 'sign',
+        //     'hasInvoice' => true
+        // ]);
         
         DB::table('documents_types')->insert([
             'title' => 'Счёт',
