@@ -74,6 +74,13 @@ class OrganizationController extends Controller
     {
         $organization = Organization::find($organizationId);
 
+        if ($organization->currency) {
+            $organization->currency_name = $organization->currency->name;
+        } else {
+            $organization->currency = false;
+            $organization->currency_name = "Валюта не установлена";
+        }
+
         if (is_null($organization)) {
             return response()->json(
                 [

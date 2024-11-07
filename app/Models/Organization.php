@@ -43,22 +43,31 @@ class Organization extends Model
     {
         return $this->hasMany(Cashbox::class);
     }
-    
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
+    public function fiscalConfigs()
+    {
+        return $this->hasMany(FiscalConfig::class);
+    }
+
     public function stuff()
     {
         return $this->hasMany(Stuff::class);
     }
-    
+
     public function counterparties()
     {
         return $this->hasMany(Counterparty::class);
     }
-    
+
     public function documents()
     {
         return $this->hasMany(Documents::class);
     }
-    
+
     public function transactions()
     {
         return $this->hasMany(Transactions::class);

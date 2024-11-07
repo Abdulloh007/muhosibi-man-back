@@ -19,7 +19,9 @@ use App\Http\Controllers\TransactionDocTypeController;
 use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\TransactionTypeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CurrencyController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FiscalConfigController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +46,7 @@ Route::post('auth', [UserController::class, 'auth']);
 Route::get('activities', [ActivitiesController::class, 'index']);
 
 Route::middleware('auth:api')->group( function () {
-    
+
     Route::resource('devices', DevicesController::class);
     Route::resource('user', UserController::class);
     Route::get('me', [UserController::class, 'showMe']);
@@ -73,6 +75,21 @@ Route::middleware('auth:api')->group( function () {
     Route::resource('invoices', InvoicesController::class);
     Route::resource('products', ProductsController::class);
     Route::get('docgroups', [DocGroupController::class, 'index']);
+    Route::resource('currency', CurrencyController::class);
+
+
+    // FiscalConfig
+    Route::prefix('organizations/{organization}/fiscal-configs')->group(function () {
+        Route::get('/', [FiscalConfigController::class, 'index']);
+        Route::post('/', [FiscalConfigController::class, 'store']);
+    });
+
+    Route::prefix('fiscal-configs')->group(function () {
+        Route::get('/{fiscalConfig}', [FiscalConfigController::class, 'show']);
+        Route::patch('/{fiscalConfig}', [FiscalConfigController::class, 'update']);
+        Route::delete('/{fiscalConfig}', [FiscalConfigController::class, 'destroy']);
+    });
+
+
 });
 
- 
