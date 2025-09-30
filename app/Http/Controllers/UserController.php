@@ -145,7 +145,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['validation' => $validator->errors()], 400);
+            return response()->json(['validation' => $validator->errors()], 401);
         }
 
 
